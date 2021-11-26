@@ -1,36 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
+import {BrowserRouter,Routes,Route} from "react-router-dom";
 import { Outlet } from 'react-router';
-
-import Menu from './components/Menu';
 import { Container } from 'react-bootstrap';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+
+import App from './App';
+
+import MenuLogado from './components/MenuLogado';
+import MenuNaoLogado from './components/MenuNaoLogado';
+
 import CadastroForm from './components/CadastroForm';
 import ListaUsuarios from './components/ListaUsuarios';
 import CalendarioAulas from './components/CalendarioAulas';
-
-
+import Login from './components/Login';
 
 import reportWebVitals from './reportWebVitals';
 
-
-import {BrowserRouter,Routes,Route} from "react-router-dom";
 
 
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+      <Route path="/login" element={<Login />}></Route>
       <Route path="/cadastro" element={<CadastroForm />}></Route>
       <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
       <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
     </Routes>
 
-    <div>
-      <Menu/>
-    </div>
+    {
+      // (isLogado) &&
+      // <div>
+      //   <MenuLogado/>
+      // </div>
+    }
+
+    {
+      // (!isLogado) &&
+      <div>
+        <MenuNaoLogado/>
+      </div>
+    }
     <div>
       <Container fluid>
         <Outlet />

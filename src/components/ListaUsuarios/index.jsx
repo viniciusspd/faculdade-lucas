@@ -11,7 +11,7 @@ export default class ListaUsuarios extends Component {
       listaUsuarios : []
     };
   }
-
+  
   render(){    
     return (      
       <Table striped bordered hover size="sm">
