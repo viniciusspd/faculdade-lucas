@@ -9,6 +9,8 @@ import Menu from './components/Menu';
 import { Container } from 'react-bootstrap';
 import CadastroForm from './components/CadastroForm';
 import ListaUsuarios from './components/ListaUsuarios';
+import CalendarioAulas from './components/CalendarioAulas';
+
 
 
 import reportWebVitals from './reportWebVitals';
@@ -23,6 +25,7 @@ ReactDOM.render(
       <Route path="/" element={<App />}></Route>
       <Route path="/cadastro" element={<CadastroForm />}></Route>
       <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
+      <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
     </Routes>
 
     <div>

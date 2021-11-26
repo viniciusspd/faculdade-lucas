@@ -25,6 +25,7 @@ export default class Menu extends Component {
                 <Link to={"/"}>Telinha inicial</Link>
                 <Link to={"/cadastro"}>Cadastro de usuário</Link>
                 <Link to={"/lista-usuarios"}>Lista de usuários</Link>
+                <Link to={"/calendario-aulas"}>Calendário de Aulas</Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

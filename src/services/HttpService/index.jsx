@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+const urlBase = 'http://localhost:8080/';
 const urlCadastrarUsuario = 'https://ene9mo6m8wf5kma.m.pipedream.net/';  
 const urlListarUsuarios = 'https://enq1m3zwev7l1yk.m.pipedream.net/';  
 
@@ -26,5 +27,20 @@ export default class HttpService{
   static listarUsuarios = async () => {
     let request = await axios.post(urlListarUsuarios,{},{});
     return request;
+  }
+  static listarCalendarioAulas = async () => {
+    let url = urlBase + '/calendario-aulas?size=1000';
+    let request = await axios.get(url);
+    return request;
+  }
+  static iniciarAula =  (postData) => {
+    let url = urlBase + '/aulas';
+    let config = {
+       headers : {
+         "Content-Type": "application/json"
+       }
+    };
+    
+    return axios.post(url,config,postData);
   }
 }
