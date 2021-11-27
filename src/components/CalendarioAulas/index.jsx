@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
+import ErroModal from '../ErroModal';
 
 export default class CalendarioAulas extends Component {
 
@@ -49,7 +50,13 @@ export default class CalendarioAulas extends Component {
     }
 
     this.definirFiltroInicial();
+
+    this.abrirModal = () => {
+      console.log("Abrir modal.");
+      return <ErroModal/>;
+    }
   }
+
 
   
 
@@ -79,12 +86,14 @@ export default class CalendarioAulas extends Component {
                   <td>{aula.hrFim}</td>
                   <td>{aula.descMateria}</td>
                   <td>{aula.nomeProfessor}</td>
+                  <td><button onClick={this.abrirModal}>BUTÃO</button></td>
                 </tr>
               )
             })
           }          
         </tbody>
-      </Table>      
+      </Table>  
+      
     );
   }
 
