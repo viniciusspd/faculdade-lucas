@@ -7,7 +7,8 @@ export default class ErroModal extends Component {
     super(props);
 
     this.state = {
-      show : false,
+      show : props.show ? props.show : false,
+      mensagemErro : props.mensagemErro ? props.mensagemErro : 'Erro.'
     }
 
     this.handleClose = () => { 
@@ -23,11 +24,11 @@ export default class ErroModal extends Component {
 
   render() {
     return (
-      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal show={this.props.showModalErro} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Erro</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Deu erro.</Modal.Body>
+        <Modal.Body>{this.props.mensagemErro}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleClose}>
             Close

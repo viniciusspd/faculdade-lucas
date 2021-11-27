@@ -9,6 +9,8 @@ export default class CalendarioAulas extends Component {
   constructor(props){
     super(props);
 
+    console.log("this.props -. ",this.props);
+
     this.state = {
       calendarioAulas : [],
       filtros : {
@@ -17,7 +19,9 @@ export default class CalendarioAulas extends Component {
           size: 30,
           page: 1
         }
-      }
+      },
+      mensagemErro : '',
+      showModalErro : false
     };
 
     this.erroModalRef = ({handleShow}) => {
@@ -57,49 +61,56 @@ export default class CalendarioAulas extends Component {
     this.definirFiltroInicial();
 
     this.abrirModal = () => {
-      this.showModal();
+      this.setState({
+        mensagemErro : 'Profundo e intenso',
+        showModalErro : true
+      });
     }
   }
 
 
   
 
-  render(){    
-    return (  
-      <Container>
-        <ErroModal ref={this.erroModalRef} /> 
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>
-            <th>Dia Semana</th>
-            <th>Turma</th>  
-            <th>Ensino</th>
-            <th>Inicio</th>
-            <th>Fim</th>
-            <th>Materia</th>
-            <th>Professor</th>  
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.calendarioAulas.map((aula) => {
-                return(
-                  <tr key={aula.idCalendarioAula}>
-                    <td>{aula.diaSemana}</td>
-                    <td>{aula.descTurma}</td>
-                    <td>{aula.tpNivelEnsino}</td>
-                    <td>{aula.hrInicio}</td>
-                    <td>{aula.hrFim}</td>
-                    <td>{aula.descMateria}</td>
-                    <td>{aula.nomeProfessor}</td>
-                    <td><button onClick={this.abrirModal}>BUTÃO</button></td>
-                  </tr>
-                )
-              })
-            }          
-          </tbody>
-        </Table>  
-      </Container>    
+  render(){
+    return (   
+      <div>
+      <Table striped bordered hover size="sm">
+        <thead>
+          <tr>
+          <th>Dia Semana</th>
+          <th>Turma</th>  
+          <th>Ensino</th>
+          <th>Inicio</th>
+          <th>Fim</th>
+          <th>Materia</th>
+          <th>Professor</th>  
+          </tr>
+        </thead>
+        <tbody>
+          {
+            this.state.calendarioAulas.map((aula) => {
+              return(
+                <tr key={aula.idCalendarioAula}>
+                  <td>{aula.diaSemana}</td>
+                  <td>{aula.descTurma}</td>
+                  <td>{aula.tpNivelEnsino}</td>
+                  <td>{aula.hrInicio}</td>
+                  <td>{aula.hrFim}</td>
+                  <td>{aula.descMateria}</td>
+                  <td>{aula.nomeProfessor}</td>
+                  <td><button onClick={this.abrirModal}>BUTÃO</button></td>
+                </tr>
+              )
+            })
+          }          
+        </tbody>
+      </Table>
+      {
+        (this.state.mensagemErro !== '') &&
+        <ErroModal show={this.state.showModalErro} mensagemErro={this.state.mensagemErro}/>
+      }
+      
+      </div>
       
     );
   }
