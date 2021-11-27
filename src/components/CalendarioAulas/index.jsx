@@ -6,7 +6,7 @@ import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
 import HttpServiceHandler from '../../services/HttpServiceHandler';
 import Form from 'react-bootstrap/Form';
-
+import Alert from 'react-bootstrap/Alert';
 
 import './index.css';
 
@@ -95,6 +95,13 @@ export default class CalendarioAulas extends Component {
       .catch((error) => {
         let httpServiceHandler = new HttpServiceHandler();
         httpServiceHandler.validarExceptionHTTP(error.response,this);
+
+        if (error.response.status == 404){
+          this.setState(prevState => ({
+            ...prevState,
+            calendarioAulas : []
+          }));
+        }
       })
     }
 
@@ -170,36 +177,48 @@ export default class CalendarioAulas extends Component {
           <span>{this.state.filtros.diaSemana}</span>
         }
 
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>
-            <th>Dia Semana</th>
-            <th>Turma</th>  
-            <th>Ensino</th>
-            <th>Inicio</th>
-            <th>Fim</th>
-            <th>Materia</th>
-            <th>Professor</th>  
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.state.calendarioAulas.map((aula) => {
-                return(
-                  <tr key={aula.idCalendarioAula}>
-                    <td>{aula.diaSemana}</td>
-                    <td>{aula.descTurma}</td>
-                    <td>{aula.tpNivelEnsino}</td>
-                    <td>{aula.hrInicio}</td>
-                    <td>{aula.hrFim}</td>
-                    <td>{aula.descMateria}</td>
-                    <td>{aula.nomeProfessor}</td>
-                  </tr>
-                )
-              })
-            }          
-          </tbody>
-        </Table>
+        {
+          (this.state.calendarioAulas.length > 0) &&
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+              <th>Dia Semana</th>
+              <th>Turma</th>  
+              <th>Ensino</th>
+              <th>Inicio</th>
+              <th>Fim</th>
+              <th>Materia</th>
+              <th>Professor</th>  
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.state.calendarioAulas.map((aula) => {
+                  return(
+                    <tr key={aula.idCalendarioAula}>
+                      <td>{aula.diaSemana}</td>
+                      <td>{aula.descTurma}</td>
+                      <td>{aula.tpNivelEnsino}</td>
+                      <td>{aula.hrInicio}</td>
+                      <td>{aula.hrFim}</td>
+                      <td>{aula.descMateria}</td>
+                      <td>{aula.nomeProfessor}</td>
+                    </tr>
+                  )
+                })
+              }          
+            </tbody>
+          </Table>
+        }
+
+        {
+          (this.state.calendarioAulas.length == 0) &&
+          <Alert variant={"danger"}>
+            Nenhuma aula encontrada.
+          </Alert>
+
+
+        }
 
         {
           (this.state.filtros.paginacaoResponse.hasProxima)

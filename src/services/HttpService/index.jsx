@@ -58,6 +58,7 @@ export default class HttpService{
       const weekday = ["DOMINGO", "SEGUNDA", "TERCA", "QUARTA", "QUINTA", "SEXTA", "SABADO"];
       let day = weekday[d.getDay()];
       queryParams.push('diaSemana=' + day);
+      
     }
 
     if (filtros.idProfessor) {
