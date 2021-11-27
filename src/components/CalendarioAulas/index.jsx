@@ -5,6 +5,7 @@ import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
 import HttpServiceHandler from '../../services/HttpServiceHandler';
+import Form from 'react-bootstrap/Form';
 
 
 import './index.css';
@@ -18,6 +19,7 @@ export default class CalendarioAulas extends Component {
       calendarioAulas : [],
       filtros : {
         idProfessor : null,
+        diaSemana : false,
         paginacaoRequest : {
           size: 15,
           page: 1
@@ -117,6 +119,33 @@ export default class CalendarioAulas extends Component {
       if (incrementoPagina > 0)
         this.selecionarPagina(incrementoPagina);
     }
+
+    this.toggleExibirAulasDoDia = (e) => {
+      if (e.target.checked){
+        this.setState(prevState => ({
+          filtros : {
+            ...prevState.filtros,
+            diaSemana : true
+          }
+        }), () => {
+          this.obterLista();
+        });
+        
+      }
+      else {
+        this.setState(prevState => ({
+          filtros : {
+            ...prevState.filtros,
+            diaSemana : false
+          }
+        }), () => {
+          this.obterLista();
+        });
+        
+      }
+
+
+    }
   }
 
 
@@ -125,6 +154,22 @@ export default class CalendarioAulas extends Component {
   render(){
     return (   
       <Container className="containerCalendarioAulas" sm={{span : 8, offset : 2}}>
+
+        <h3 className="tituloModulo">Calendário de aulas</h3>
+
+
+        <Form.Check 
+          type={"checkbox"}
+          id={1}
+          label={"Exibir somente aulas de hoje"}
+          checked={this.state.filtros.diaSemana}
+          onChange={this.toggleExibirAulasDoDia}
+        />
+
+        {
+          <span>{this.state.filtros.diaSemana}</span>
+        }
+
         <Table striped bordered hover size="sm">
           <thead>
             <tr>

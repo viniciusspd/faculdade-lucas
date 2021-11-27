@@ -52,6 +52,14 @@ export default class HttpService{
   static listarCalendarioAulas = async (filtros) => {
     let url = urlBase + '/calendario-aulas';
     let queryParams = [];
+
+    if (filtros.diaSemana){
+      const d = new Date();
+      const weekday = ["DOMINGO", "SEGUNDA", "TERCA", "QUARTA", "QUINTA", "SEXTA", "SABADO"];
+      let day = weekday[d.getDay()];
+      queryParams.push('diaSemana=' + day);
+    }
+
     if (filtros.idProfessor) {
       queryParams.push('idProfessor=' + filtros.idProfessor);
     }
@@ -72,7 +80,6 @@ export default class HttpService{
   }
 
   static logar = (postData) => {
-    console.log("postData -> ",postData);
     return axios.post(urlBase + '/logar', postData,defaultHeaders);
   }
 }
