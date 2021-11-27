@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Container, Table } from 'react-bootstrap';
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
@@ -19,6 +19,11 @@ export default class CalendarioAulas extends Component {
         }
       }
     };
+
+    this.erroModalRef = ({handleShow}) => {
+      this.showModal = handleShow;
+    }
+   
 
     this.definirFiltroInicial = () => {
       if (userLogado.getTipoCadastro() === 'PROFESSOR')
@@ -52,8 +57,7 @@ export default class CalendarioAulas extends Component {
     this.definirFiltroInicial();
 
     this.abrirModal = () => {
-      console.log("Abrir modal.");
-      return <ErroModal/>;
+      this.showModal();
     }
   }
 
@@ -61,38 +65,41 @@ export default class CalendarioAulas extends Component {
   
 
   render(){    
-    return (      
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-          <th>Dia Semana</th>
-          <th>Turma</th>  
-          <th>Ensino</th>
-          <th>Inicio</th>
-          <th>Fim</th>
-          <th>Materia</th>
-          <th>Professor</th>  
-          </tr>
-        </thead>
-        <tbody>
-          {
-            this.state.calendarioAulas.map((aula) => {
-              return(
-                <tr key={aula.idCalendarioAula}>
-                  <td>{aula.diaSemana}</td>
-                  <td>{aula.descTurma}</td>
-                  <td>{aula.tpNivelEnsino}</td>
-                  <td>{aula.hrInicio}</td>
-                  <td>{aula.hrFim}</td>
-                  <td>{aula.descMateria}</td>
-                  <td>{aula.nomeProfessor}</td>
-                  <td><button onClick={this.abrirModal}>BUTÃO</button></td>
-                </tr>
-              )
-            })
-          }          
-        </tbody>
-      </Table>  
+    return (  
+      <Container>
+        <ErroModal ref={this.erroModalRef} /> 
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+            <th>Dia Semana</th>
+            <th>Turma</th>  
+            <th>Ensino</th>
+            <th>Inicio</th>
+            <th>Fim</th>
+            <th>Materia</th>
+            <th>Professor</th>  
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.calendarioAulas.map((aula) => {
+                return(
+                  <tr key={aula.idCalendarioAula}>
+                    <td>{aula.diaSemana}</td>
+                    <td>{aula.descTurma}</td>
+                    <td>{aula.tpNivelEnsino}</td>
+                    <td>{aula.hrInicio}</td>
+                    <td>{aula.hrFim}</td>
+                    <td>{aula.descMateria}</td>
+                    <td>{aula.nomeProfessor}</td>
+                    <td><button onClick={this.abrirModal}>BUTÃO</button></td>
+                  </tr>
+                )
+              })
+            }          
+          </tbody>
+        </Table>  
+      </Container>    
       
     );
   }

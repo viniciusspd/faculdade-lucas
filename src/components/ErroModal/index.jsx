@@ -7,7 +7,7 @@ export default class ErroModal extends Component {
     super(props);
 
     this.state = {
-      show : true,
+      show : false,
     }
 
     this.handleClose = () => { 
@@ -15,6 +15,7 @@ export default class ErroModal extends Component {
     };
 
     this.handleShow = () => { 
+      console.log('ali');
       this.setState({ show : true })
     };
     
@@ -22,7 +23,7 @@ export default class ErroModal extends Component {
 
   render() {
     return (
-      <Modal show={true} onHide={this.handleClose}>
+      <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Erro</Modal.Title>
         </Modal.Header>
