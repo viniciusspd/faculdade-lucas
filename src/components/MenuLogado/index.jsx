@@ -5,8 +5,20 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
 import './index.css';
+import UsuarioLogadoService from '../../services/UsuarioLogadoService';
 
 export default class MenuLogado extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.logoff = () => {
+      UsuarioLogadoService.logoff();
+      window.location="/login";
+    }
+
+  }
+
   render() {
     return (
       <Navbar fixed="top" bg="light" expand={false}>
@@ -27,6 +39,7 @@ export default class MenuLogado extends Component {
                 <Link to={"/cadastro"}>Cadastro de usuário</Link>
                 <Link to={"/lista-usuarios"}>Lista de usuários</Link>
                 <Link to={"/calendario-aulas"}>Calendário de Aulas</Link>
+                <a style={{"cursor" : "pointer"}} onClick={this.logoff}>Sair</a>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

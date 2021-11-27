@@ -9,8 +9,7 @@ import './index.css';
 
 import App from './App';
 
-import MenuLogado from './components/MenuLogado';
-import MenuNaoLogado from './components/MenuNaoLogado';
+import AreaDoUsuario from './components/AreaDoUsuario';
 
 import CadastroForm from './components/CadastroForm';
 import ListaUsuarios from './components/ListaUsuarios';
@@ -26,6 +25,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/area-do-usuario" element={<AreaDoUsuario/>}></Route>
       <Route path="/cadastro" element={<CadastroForm />}></Route>
       <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
       <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
@@ -34,15 +34,13 @@ ReactDOM.render(
     {
       // (isLogado) &&
       // <div>
-      //   <MenuLogado/>
+      //   
       // </div>
     }
 
     {
       // (!isLogado) &&
-      <div>
-        <MenuNaoLogado/>
-      </div>
+      
     }
     <div>
       <Container fluid>
