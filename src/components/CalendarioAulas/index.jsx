@@ -15,7 +15,7 @@ export default class CalendarioAulas extends Component {
     this.state = {
       calendarioAulas : [],
       filtros : {
-        idProfessor : 40560,
+        idProfessor : null,
         paginacao : {
           size: 30,
           page: 1
