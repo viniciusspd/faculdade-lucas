@@ -55,8 +55,8 @@ export default class HttpService{
     if (filtros.idProfessor) {
       queryParams.push('idProfessor=' + filtros.idProfessor);
     }
-    if (filtros.paginacao) {
-      queryParams.push(HttpService.queryPaginacao(filtros.paginacao));
+    if (filtros.paginacaoRequest) {
+      queryParams.push(HttpService.queryPaginacao(filtros.paginacaoRequest));
     }
 
     url += HttpService.gerarParams(queryParams);

@@ -23,7 +23,11 @@ export default class MenuLogado extends Component {
     return (
       <Navbar fixed="top" bg="light" expand={false}>
         <Container fluid>
-          <Navbar.Brand href="#" id="tituloSistema">Secretaria Escolar</Navbar.Brand>
+          <Navbar.Brand href="#" id="tituloSistema">
+            Secretaria Escolar
+            <span className="nomeUsuarioLogado">Logado como {UsuarioLogadoDto.getNome()}</span>
+          </Navbar.Brand>
+          
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
           <Navbar.Offcanvas
             id="offcanvasNavbar"

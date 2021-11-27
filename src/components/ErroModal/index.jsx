@@ -6,16 +6,11 @@ export default class ErroModal extends Component {
   constructor(props){
     super(props);
 
-    console.log("prpos",this.props);
-
     this.handleClose = () => { 
       this.props.closeErroModal();
     };
 
-    this.handleShow = () => { 
-      console.log('ali');
-      
-    };
+    this.handleShow = () => { };
     
   } 
 

@@ -1,6 +1,5 @@
 import { Component } from "react";
 import MenuLogado from "../MenuLogado";
-import UsuarioLogadoDto from "../../dto/UsuarioLogadoDto";
 import CalendarioAulas from "../CalendarioAulas";
 
 export default class AreaDoUsuario extends Component {
@@ -14,8 +13,6 @@ export default class AreaDoUsuario extends Component {
     return (
       <div>
         <MenuLogado/>
-        <p>Olá, {UsuarioLogadoDto.getNome()} </p>
-
         <CalendarioAulas/>
       </div>
     );

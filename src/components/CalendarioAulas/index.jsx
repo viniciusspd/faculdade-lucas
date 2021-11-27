@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
+import Pagination from 'react-bootstrap/Pagination'
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
 import HttpServiceHandler from '../../services/HttpServiceHandler';
+
+
+import './index.css';
 
 export default class CalendarioAulas extends Component {
 
   constructor(props){
     super(props);
 
-    console.log("this.props -. ",this.props);
-
     this.state = {
       calendarioAulas : [],
       filtros : {
         idProfessor : null,
-        paginacao : {
-          size: 30,
+        paginacaoRequest : {
+          size: 15,
           page: 1
+        },
+        paginacaoResponse : {
+          quantidade : null,
+          hasProxima : null
         }
       },
       erroModal : {
@@ -29,7 +35,6 @@ export default class CalendarioAulas extends Component {
     };
 
     this.closeErroModal = () => {
-      console.log("fechando a modal.");
       this.setState({
         erroModal : {
           mensagemErro : '',
@@ -46,13 +51,10 @@ export default class CalendarioAulas extends Component {
     }
 
     this.enviarDados = (e) => {
-      console.log("state -> ",this.state);
       e.preventDefault(); // Cancela a ação padrão do submit    
 
       HttpService.cadastrarUsuario(this.state.email, this.state.senha)
       .then((response) => {
-        console.log("response -> ",response);
-
         if (response.data.sucesso){
           alert(response.data.mensagem)
         }
@@ -71,9 +73,49 @@ export default class CalendarioAulas extends Component {
 
     this.definirFiltroInicial();
 
-    this.abrirModal = () => {
-      console.log("abrir modal");
-      
+    this.obterLista = () => {
+      HttpService.listarCalendarioAulas(this.state.filtros)
+      .then((response) => {
+        if (response){
+          this.setState(prevState => ({
+            ...prevState,
+            calendarioAulas : response.data,
+            filtros : {
+              ...prevState.filtros,
+              paginacaoResponse : {
+                quantidade : parseInt(response.headers['page-quantidade']),
+                hasProxima : response.headers['page-has-proxima'] === 'true' ? true : false
+              }
+            }
+          }));
+        }
+      })
+      .catch((error) => {
+        let httpServiceHandler = new HttpServiceHandler();
+        httpServiceHandler.validarExceptionHTTP(error.response,this);
+      })
+    }
+
+    this.selecionarPagina = (numeroPagina) => {
+      this.setState(prevState => ({
+        ...prevState,
+        filtros : {
+          ...prevState.filtros,
+          paginacaoRequest : {
+            ...prevState.filtros.paginacaoRequest,
+            page : numeroPagina
+          }
+        }
+      }), () => {
+        this.obterLista();
+      });
+    }
+
+    this.incrementarPagina = (incremento) => {
+      let incrementoPagina = this.state.filtros.paginacaoRequest.page + incremento;
+
+      if (incrementoPagina > 0)
+        this.selecionarPagina(incrementoPagina);
     }
   }
 
@@ -82,73 +124,72 @@ export default class CalendarioAulas extends Component {
 
   render(){
     return (   
-      <div>
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-          <th>Dia Semana</th>
-          <th>Turma</th>  
-          <th>Ensino</th>
-          <th>Inicio</th>
-          <th>Fim</th>
-          <th>Materia</th>
-          <th>Professor</th>  
-          </tr>
-        </thead>
-        <tbody>
+      <Container className="containerCalendarioAulas" sm={{span : 8, offset : 2}}>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+            <th>Dia Semana</th>
+            <th>Turma</th>  
+            <th>Ensino</th>
+            <th>Inicio</th>
+            <th>Fim</th>
+            <th>Materia</th>
+            <th>Professor</th>  
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.calendarioAulas.map((aula) => {
+                return(
+                  <tr key={aula.idCalendarioAula}>
+                    <td>{aula.diaSemana}</td>
+                    <td>{aula.descTurma}</td>
+                    <td>{aula.tpNivelEnsino}</td>
+                    <td>{aula.hrInicio}</td>
+                    <td>{aula.hrFim}</td>
+                    <td>{aula.descMateria}</td>
+                    <td>{aula.nomeProfessor}</td>
+                  </tr>
+                )
+              })
+            }          
+          </tbody>
+        </Table>
+
+        {
+          (this.state.filtros.paginacaoResponse.hasProxima)
+          
+        }
+
+        
+        <Pagination>
+          <Pagination.First onClick={() => {this.selecionarPagina(1)}} />
+          <Pagination.Prev onClick={() => {this.incrementarPagina(-1)}} />
+          <Pagination.Item active>{this.state.filtros.paginacaoRequest.page}</Pagination.Item>
+          
           {
-            this.state.calendarioAulas.map((aula) => {
-              return(
-                <tr key={aula.idCalendarioAula}>
-                  <td>{aula.diaSemana}</td>
-                  <td>{aula.descTurma}</td>
-                  <td>{aula.tpNivelEnsino}</td>
-                  <td>{aula.hrInicio}</td>
-                  <td>{aula.hrFim}</td>
-                  <td>{aula.descMateria}</td>
-                  <td>{aula.nomeProfessor}</td>
-                  <td><button onClick={this.abrirModal}>BUTÃO</button></td>
-                </tr>
-              )
-            })
-          }          
-        </tbody>
-      </Table>
-      {
-        (this.state.mensagemErro !== '') &&
-        <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
-      }
+            (this.state.filtros.paginacaoResponse.hasProxima) &&
+            <Pagination.Next onClick={() => {this.incrementarPagina(1)}} />
+          }
+          {
+            (!this.state.filtros.paginacaoResponse.hasProxima) &&
+            <Pagination.Next disabled />
+          }
+          <Pagination.Last onClick={() => this.selecionarPagina(this.state.filtros.paginacaoResponse.quantidade)} />
+        </Pagination>
+        
+        
+        {
+          (this.state.mensagemErro !== '') &&
+          <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
+        }
       
-      </div>
+      </Container>
       
     );
   }
 
   componentDidMount(){
-    HttpService.listarCalendarioAulas(this.state.filtros)
-    .then((response) => {
-      console.log("response -> ",response);
-      if (response){
-        this.setState({
-          calendarioAulas : response.data
-        });
-      }
-    })
-    .catch((error) => {
-      console.log("DEU PAU");
-      // console.log("error -> ",error.response);
-
-      // this.setState( prevState => ({
-      //   erroModal : {
-      //     ...prevState.erroModal,
-      //     mensagemErro : error.response.data.mensagemErro,
-      //     show : true,
-      //     titulo : 'Erro '+error.response.status
-      //   }
-      // }));
-
-      let httpServiceHandler = new HttpServiceHandler();
-      httpServiceHandler.validarExceptionHTTP(error.response,this);
-    })
+    this.obterLista();
   }
 }
