@@ -3,6 +3,7 @@ import { Container, Table } from 'react-bootstrap';
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
+import HttpServiceHandler from '../../services/HttpServiceHandler';
 
 export default class CalendarioAulas extends Component {
 
@@ -14,18 +15,28 @@ export default class CalendarioAulas extends Component {
     this.state = {
       calendarioAulas : [],
       filtros : {
-        idProfessor : null,
+        idProfessor : 40560,
         paginacao : {
           size: 30,
           page: 1
         }
       },
-      mensagemErro : '',
-      showModalErro : false
+      erroModal : {
+        mensagemErro : '',
+        show : false,
+        titulo : ''
+      },      
     };
 
-    this.erroModalRef = ({handleShow}) => {
-      this.showModal = handleShow;
+    this.closeErroModal = () => {
+      console.log("fechando a modal.");
+      this.setState({
+        erroModal : {
+          mensagemErro : '',
+          showModalErro : false,
+          titulo : ''
+        }
+      });
     }
    
 
@@ -61,10 +72,8 @@ export default class CalendarioAulas extends Component {
     this.definirFiltroInicial();
 
     this.abrirModal = () => {
-      this.setState({
-        mensagemErro : 'Profundo e intenso',
-        showModalErro : true
-      });
+      console.log("abrir modal");
+      
     }
   }
 
@@ -107,7 +116,7 @@ export default class CalendarioAulas extends Component {
       </Table>
       {
         (this.state.mensagemErro !== '') &&
-        <ErroModal show={this.state.showModalErro} mensagemErro={this.state.mensagemErro}/>
+        <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
       }
       
       </div>
@@ -126,7 +135,20 @@ export default class CalendarioAulas extends Component {
       }
     })
     .catch((error) => {
-      console.log("error -> ",error);
+      console.log("DEU PAU");
+      // console.log("error -> ",error.response);
+
+      // this.setState( prevState => ({
+      //   erroModal : {
+      //     ...prevState.erroModal,
+      //     mensagemErro : error.response.data.mensagemErro,
+      //     show : true,
+      //     titulo : 'Erro '+error.response.status
+      //   }
+      // }));
+
+      let httpServiceHandler = new HttpServiceHandler();
+      httpServiceHandler.validarExceptionHTTP(error.response,this);
     })
   }
 }

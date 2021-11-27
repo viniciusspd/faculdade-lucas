@@ -10,6 +10,8 @@ import Alert from 'react-bootstrap/Alert';
 import HttpService from '../../services/HttpService';
 import HttpServiceHandler from '../../services/HttpServiceHandler';
 
+import ErroDto from '../../dto/ErroDto';
+
 
 
 import './index.css';
@@ -24,6 +26,7 @@ export default class Login extends Component {
       emailLogin : '',
       senha : '',
       mensagemErro : '',
+
     }
 
     this.handleEmaiLogin = (e) => {
@@ -105,6 +108,15 @@ export default class Login extends Component {
 
       </Container>
     );
+  }
+
+  componentDidMount(){
+    if (ErroDto.getErroToken()){
+      this.setState({
+        mensagemErro : ErroDto.getErroToken()
+      });      
+      ErroDto.deleteErroToken();
+    }
   }
 
 }
