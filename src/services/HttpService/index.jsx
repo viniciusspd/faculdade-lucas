@@ -1,4 +1,5 @@
 import axios from 'axios';
+import UsuarioLogadoDto from '../../dto/UsuarioLogadoDto';
 
 const urlBase = 'http://localhost:8080';
 const urlCadastrarUsuario = 'https://ene9mo6m8wf5kma.m.pipedream.net/';  
@@ -7,11 +8,24 @@ const defaultHeaders = {
   headers : {
     "Content-Type": "application/json",
     "Accept-Language" : "pt-br",
-    "token" : "AEEAEAE"
+    "token" : UsuarioLogadoDto.getTokenAcesso() ? UsuarioLogadoDto.getTokenAcesso() : ""
   }
 }
+const defaultConfig = {
+  headers : defaultHeaders.headers 
+}
+
 
 export default class HttpService{
+
+  static queryPaginacao = (paginacao) => {
+    return (!paginacao.size || !paginacao.page) ? '' : 'size=' + paginacao.size + '&page=' + (paginacao.page - 1); 
+  } 
+
+  static gerarParams = (arrParams) => {
+    return (arrParams.length > 0) ? '?'+arrParams.join('&'):'';
+  }
+  
   static cadastrarUsuario = (email, senha) => {
     // Exemplo de variável de configuração de headers (se precisar)
     let config = {
@@ -35,18 +49,24 @@ export default class HttpService{
     let request = await axios.post(urlListarUsuarios,{},{});
     return request;
   }
-  static listarCalendarioAulas = async () => {
-    let url = urlBase + '/calendario-aulas?size=1000';
-    let request = await axios.get(url);
+  static listarCalendarioAulas = async (filtros) => {
+    let url = urlBase + '/calendario-aulas';
+    let queryParams = [];
+    if (filtros.idProfessor) {
+      queryParams.push('idProfessor=' + filtros.idProfessor);
+    }
+    if (filtros.paginacao) {
+      queryParams.push(HttpService.queryPaginacao(filtros.paginacao));
+    }
+
+    url += HttpService.gerarParams(queryParams);
+
+    let request = await axios.get(url,defaultConfig);
     return request;
   }
   static iniciarAula =  (postData) => {
     let url = urlBase + '/aulas';
-    let config = {
-       headers : {
-         "Content-Type": "application/json"
-       }
-    };
+    let config = defaultConfig;
     
     return axios.post(url,config,postData);
   }

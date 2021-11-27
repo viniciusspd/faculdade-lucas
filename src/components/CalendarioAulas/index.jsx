@@ -1,16 +1,57 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import HttpService from '../../services/HttpService';
+import userLogado from '../../dto/UsuarioLogadoDto';
 
-export default class ListaUsuarios extends Component {
+export default class CalendarioAulas extends Component {
 
   constructor(props){
     super(props);
 
     this.state = {
-      calendarioAulas : []
+      calendarioAulas : [],
+      filtros : {
+        idProfessor : null,
+        paginacao : {
+          size: 30,
+          page: 1
+        }
+      }
     };
+
+    this.definirFiltroInicial = () => {
+      if (userLogado.getTipoCadastro() === 'PROFESSOR')
+        this.state.filtros.idProfessor = userLogado.getIdCadastro();
+    }
+
+    this.enviarDados = (e) => {
+      console.log("state -> ",this.state);
+      e.preventDefault(); // Cancela a ação padrão do submit    
+
+      HttpService.cadastrarUsuario(this.state.email, this.state.senha)
+      .then((response) => {
+        console.log("response -> ",response);
+
+        if (response.data.sucesso){
+          alert(response.data.mensagem)
+        }
+        else {
+          alert("Por algum motivo o usuário não foi cadastrado. Por favor, tente mais tarde.");
+        }
+        
+      })
+      .catch((error) => {
+        console.log("error -> ",error.response)
+        // Desenvolve a lógica do erro aqui
+      });
+
+      return true;
+    }
+
+    this.definirFiltroInicial();
   }
+
+  
 
   render(){    
     return (      
@@ -18,12 +59,12 @@ export default class ListaUsuarios extends Component {
         <thead>
           <tr>
           <th>Dia Semana</th>
+          <th>Turma</th>  
+          <th>Ensino</th>
           <th>Inicio</th>
           <th>Fim</th>
           <th>Materia</th>
-          <th>Ensino</th>
-          <th>Professor</th>
-          <th>Turma</th>    
+          <th>Professor</th>  
           </tr>
         </thead>
         <tbody>
@@ -32,12 +73,12 @@ export default class ListaUsuarios extends Component {
               return(
                 <tr key={aula.idCalendarioAula}>
                   <td>{aula.diaSemana}</td>
+                  <td>{aula.descTurma}</td>
+                  <td>{aula.tpNivelEnsino}</td>
                   <td>{aula.hrInicio}</td>
                   <td>{aula.hrFim}</td>
                   <td>{aula.descMateria}</td>
-                  <td>{aula.tpNivelEnsino}</td>
                   <td>{aula.nomeProfessor}</td>
-                  <td>{aula.descTurma}</td>
                 </tr>
               )
             })
@@ -48,7 +89,7 @@ export default class ListaUsuarios extends Component {
   }
 
   componentDidMount(){
-    HttpService.listarCalendarioAulas()
+    HttpService.listarCalendarioAulas(this.state.filtros)
     .then((response) => {
       console.log("response -> ",response);
       if (response){

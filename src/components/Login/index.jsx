@@ -13,7 +13,7 @@ import HttpServiceHandler from '../../services/HttpServiceHandler';
 
 
 import './index.css';
-import UsuarioLogadoService from '../../services/UsuarioLogadoService';
+import UsuarioLogadoDto from '../../dto/UsuarioLogadoDto';
 import MenuNaoLogado from '../MenuNaoLogado';
 
 export default class Login extends Component {
@@ -46,7 +46,7 @@ export default class Login extends Component {
         emailLogin : this.state.emailLogin,
         senha : this.state.senha
       }).then((response) => {
-        UsuarioLogadoService.setDadosUsuarioLogado(response.data, this.state.emailLogin);        
+        UsuarioLogadoDto.setDadosUsuarioLogado(response.data, this.state.emailLogin);        
         window.location = '/area-do-usuario'
         
       })

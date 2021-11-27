@@ -1,18 +1,22 @@
 import { Component } from "react";
 import MenuLogado from "../MenuLogado";
-import UsuarioLogadoService from "../../services/UsuarioLogadoService";
+import UsuarioLogadoDto from "../../dto/UsuarioLogadoDto";
+import CalendarioAulas from "../CalendarioAulas";
 
 export default class AreaDoUsuario extends Component {
 
   constructor(props){
     super(props);
+
   }
 
   render(){
     return (
       <div>
         <MenuLogado/>
-        <p>Olá, {UsuarioLogadoService.getNome()} </p>
+        <p>Olá, {UsuarioLogadoDto.getNome()} </p>
+
+        <CalendarioAulas/>
       </div>
     );
   }

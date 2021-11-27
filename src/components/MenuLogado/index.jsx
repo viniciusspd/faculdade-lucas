@@ -5,7 +5,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
 import './index.css';
-import UsuarioLogadoService from '../../services/UsuarioLogadoService';
+import UsuarioLogadoDto from '../../dto/UsuarioLogadoDto';
 
 export default class MenuLogado extends Component {
 
@@ -13,7 +13,7 @@ export default class MenuLogado extends Component {
     super(props);
 
     this.logoff = () => {
-      UsuarioLogadoService.logoff();
+      UsuarioLogadoDto.logoff();
       window.location="/login";
     }
 
