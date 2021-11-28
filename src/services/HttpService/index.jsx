@@ -5,8 +5,6 @@ import UsuarioLogadoDto from '../../dto/UsuarioLogadoDto';
 const host = window.location.protocol + "//" + window.location.host;
 //const urlBase = 'http://192.168.1.124:8080/login'; //<- testes local
 const urlBase = host + '/api'; //<- build acesso na rede
-const urlCadastrarUsuario = 'https://ene9mo6m8wf5kma.m.pipedream.net/';  
-const urlListarUsuarios = 'https://enq1m3zwev7l1yk.m.pipedream.net/';  
 const defaultHeaders = {
   headers : {
     "Content-Type": "application/json",
@@ -28,25 +26,6 @@ export default class HttpService{
   static gerarParams = (arrParams) => {
     return (arrParams.length > 0) ? '?'+arrParams.join('&'):'';
   }
-  
-  static cadastrarUsuario = (email, senha) => {
-    // Exemplo de variável de configuração de headers (se precisar)
-    let config = {
-      // headers : {
-      //   "chavedeacesso" : "123"
-      //   //"chavedeacesso" : "12345",
-      //   "email" : userData.email,
-      //   "Content-Type": "application/json"
-      // }
-    };
-
-    let data = {
-      email : email,
-      senha : senha
-    };
-
-    return axios.post(urlCadastrarUsuario,config,data);
-  }
 
   static exibirAula = async (idAula) => {
     let url = urlBase + '/aulas/'+idAula;
@@ -55,12 +34,6 @@ export default class HttpService{
     return response;
 
   }
-
-  static listarUsuarios = async () => {
-    let response = await axios.post(urlListarUsuarios,{},{});
-    return response;
-  }
-
 
   static listarAulas = async (filtros) => {
     let url = urlBase + '/aulas';
