@@ -17,7 +17,8 @@ import Aula from './components/Aula';
 
 import reportWebVitals from './reportWebVitals';
 import ListaAulas from './components/ListaAulas';
-import ListaTurmas from './components/ListaTurmas'
+import ListaTurmas from './components/ListaTurmas';
+import Turma from './components/Turma';
 
 
 
@@ -31,6 +32,7 @@ ReactDOM.render(
       <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
       <Route path="/lista-aulas" element={<ListaAulas />}></Route>
       <Route path="/lista-turmas" element={<ListaTurmas />}></Route>
+      <Route path="/turma" element={<Turma />}></Route>
     </Routes>
 
     {

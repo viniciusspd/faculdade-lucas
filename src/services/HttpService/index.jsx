@@ -148,4 +148,10 @@ export default class HttpService{
     let response = await axios.get(url,defaultConfig);
     return response;
   }
+
+  static exibirAluno = async (idAluno) => {
+    let url = urlBase + '/alunos/' +idAluno;
+    let response = await axios.get(url,defaultConfig);
+    return response;
+  }
 }

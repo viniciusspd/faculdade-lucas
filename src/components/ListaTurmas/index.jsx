@@ -37,10 +37,6 @@ export default class ListaTurmas extends Component {
         mensagemErro : '',
         show : false,
         titulo : ''
-      }, 
-      detalheTurmaModal : {
-        idTurma : 0,
-        show : false,
       }
     };
 
@@ -101,14 +97,7 @@ export default class ListaTurmas extends Component {
     }
 
     this.abrirDetalhesTurma = (idTurma) => {
-      this.setState( prevState => ({
-        ...prevState,
-        detalheTurmaModal : {
-          ...prevState.detalheTurmaModal,
-          show : true,
-          idTurma : idTurma
-        }
-      }));
+      window.location = './turma?idTurma=' + idTurma;
     }
 
     this.closeErroModal = () => {
@@ -125,67 +114,69 @@ export default class ListaTurmas extends Component {
 
   render(){
     return (
-      <Container className="containerListaTurmas">
-        <MenuLogado/>
-        
+      <div>
+        <Container className="containerListaTurmas">
+          <MenuLogado/>
+          
 
-        <Row style={{marginBottom: "20px"}}>
-          <Col sm={{span : 4}}>
-            <h1>Lista de turmas.</h1>
-          </Col>
-          <Col sm={{span : 4, offset: 4}}>
-            <FloatingLabel controlId="floatingSelectGrid" label="Filtro de nível de ensino">
-              <Form.Select aria-label="Floating label select example" onChange={this.handleFiltroStatusChange}>
-                <option value="">Nenhum</option>
-                <option value="INFANTIL">Infantil</option>
-                <option value="FUNDAMENTAL_I">Fundamental I</option>
-                <option value="FUNDAMENTAL_II">Fundamental II</option>
-                <option value="MEDIO">Médio</option>
-              </Form.Select>
-            </FloatingLabel>
-          </Col>
-        </Row>
+          <Row style={{marginBottom: "20px"}}>
+            <Col sm={{span : 4}}>
+              <h1>Lista de turmas.</h1>
+            </Col>
+            <Col sm={{span : 4, offset: 4}}>
+              <FloatingLabel controlId="floatingSelectGrid" label="Filtro de nível de ensino">
+                <Form.Select aria-label="Floating label select example" onChange={this.handleFiltroStatusChange}>
+                  <option value="">Nenhum</option>
+                  <option value="INFANTIL">Infantil</option>
+                  <option value="FUNDAMENTAL_I">Fundamental I</option>
+                  <option value="FUNDAMENTAL_II">Fundamental II</option>
+                  <option value="MEDIO">Médio</option>
+                </Form.Select>
+              </FloatingLabel>
+            </Col>
+          </Row>
 
-        
+          
 
-        <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Turma</th>
-                <th>Ensino</th>
-                <th>Período</th>
-                <th></th>
-              </tr>
-            </thead>
+          <Table striped bordered hover size="sm">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Turma</th>
+                  <th>Ensino</th>
+                  <th>Período</th>
+                  <th></th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {
-                this.state.listaTurmas.map((turma) => {
-                  return (
-                      
-                    <tr key={turma.idTurma}>
-                      <td>{turma.idTurma}</td>
-                      <td>{turma.descTurma}</td>
-                      <td>{turma.tpNivelEnsino}</td>
-                      <td>{turma.tpPeriodo}</td>
-                      <td style={{textAlign : "center"}}>
-                        {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
-                        <Button onClick={() => {this.abrirDetalhesTurma(turma.idTurma)}}>Detalhes Turma</Button>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
+              <tbody>
+                {
+                  this.state.listaTurmas.map((turma) => {
+                    return (
+                        
+                      <tr key={turma.idTurma}>
+                        <td>{turma.idTurma}</td>
+                        <td>{turma.descTurma}</td>
+                        <td>{turma.tpNivelEnsino}</td>
+                        <td>{turma.tpPeriodo}</td>
+                        <td style={{textAlign : "center"}}>
+                          {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
+                          <Button onClick={() => {this.abrirDetalhesTurma(turma.idTurma)}}>Detalhes Turma</Button>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
+              </tbody>
 
-          </Table>
+            </Table>
 
-          <Paginacao there={this}/>
+            <Paginacao there={this}/>
 
-          <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
+            <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
 
-      </Container>
+        </Container>
+      </div>
     );
   }
 

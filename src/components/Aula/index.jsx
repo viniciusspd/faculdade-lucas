@@ -38,7 +38,8 @@ export default class Aula extends Component{
       },
       sucessoModal : {
         mensagem : '',
-        show : false
+        show : false,
+        redirect : ''
       }      
     };
 
@@ -53,6 +54,10 @@ export default class Aula extends Component{
     }
 
     this.closeSucessoModal = () => {
+      if (this.state.sucessoModal.redirect) {
+        window.location = this.state.sucessoModal.redirect;
+      }
+
       this.setState({
         sucessoModal : {
           mensagem : '',
@@ -61,11 +66,12 @@ export default class Aula extends Component{
       });
     }
 
-    this.abrirSucessoModal = (msg) => {
+    this.abrirSucessoModal = (msg,redirect) => {
       this.setState({
         sucessoModal : {
           mensagem : msg,
-          show : true
+          show : true,
+          redirect : redirect
         }
       });
     }
@@ -112,12 +118,14 @@ export default class Aula extends Component{
     this.finalizarAula = () => {
       HttpService.finalizarAula(this.state.idAula)
       .then((response) => {
+        let aula_finalizada = 'Aula finalizada com sucesso.';
         if (this.props.isModal){
-          this.abrirSucessoModal('Aula finalizada com sucesso.');
+          this.abrirSucessoModal(aula_finalizada,'');
           this.listarChamada(this.state.idAula);
         }
-        else
-          window.location = './calendario-aulas';
+        else {
+          this.abrirSucessoModal(aula_finalizada,'./calendario-aulas');
+        }
       })
       .catch((error) => {
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
