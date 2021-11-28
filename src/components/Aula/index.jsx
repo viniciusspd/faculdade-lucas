@@ -105,7 +105,7 @@ export default class Aula extends Component{
           idAula : response.data.idAula,
           statusAula : response.data.statusAula,
           dtHrIniciada : response.data.dtHrIniciada,
-          dtHrFinalizada : response.data.dtHrFInalizada,
+          dtHrFinalizada : response.data.dtHrFinalizada,
           dadosAlunos : response.data.presencaAlunos
         }));
       })
