@@ -6,12 +6,11 @@ import imgComputador from '../../assets/images/computador_branco.png';
 const Footer = () => {
 
     return (
-        <Row>
-        <Col sm={12} className="footer paddingContainer text-center">
-          <img src={imgComputador} />
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} className="footer paddingContainer text-center">
+          <img style={{width : "50%"}} src={imgComputador} />
           <p id="copyright">&copy; Copyright BLR - 2021</p>            
         </Col>          
-
       </Row>
     ) 
 }

@@ -25,7 +25,7 @@ export default class MenuNaoLogado extends Component {
             {/* <Nav.Link href="/" >Home</Nav.Link>
             <Nav.Link href="/login" >Login</Nav.Link> */}
             
-            <Nav.Link href="mailto:lucas.dc.lopes@gmail.com">Contato</Nav.Link>
+            <Nav.Link style={{padding : "0.5rem 1rem"}} href="mailto:lucas.dc.lopes@gmail.com">Contato</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         </Container>

@@ -75,7 +75,7 @@ export default class Login extends Component {
       <Container fluid>
         <MenuNaoLogado/>
         <Row>
-          <Col sm={{span : 4, offset: 4}}>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 10, offset: 1}}  md={{span : 10, offset: 1}} lg={{span: 4, offset: 4}}>
             <Form id="formLogin" className="ps-5 pe-5 pt-5 pb-5">
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email de acesso</Form.Label>
