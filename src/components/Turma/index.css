@@ -2,11 +2,29 @@
   padding-top: 60px;
 }
 
-.quantidadeFaltantes {
-  color:rgb(202, 0, 0);
-  /* font-weight: bold ;*/
+.btnSalvarTurma {
+  background-color:rgb(2, 114, 11);
+  margin-left: 20px;
 }
 
-.btnFinalizarAula {
+.btnSalvarTurma:hover {
+  background-color:rgb(2, 114, 11);
+}
+
+.btnSalvarTurma:focus {
+  background-color:rgb(2, 114, 11);
+}
+
+
+.btnDeletarTurma {
+  background-color:rgb(179, 1, 1);
   margin-left: 20px;
+}
+
+.btnDeletarTurma:hover {
+  background-color:rgb(179, 1, 1);
+}
+
+.btnDeletarTurma:focus {
+  background-color:rgb(179, 1, 1);
 }

@@ -23,6 +23,7 @@ export default class Turma extends Component{
       tpNivelEnsino : '',
       totalFaltas : 0,
       alunosTurma : [],
+      isEdicao: false,
       erroModal : {
         mensagemErro : '',
         show : false,
@@ -100,6 +101,19 @@ export default class Turma extends Component{
           });
     }
 
+
+    this.habilitarEdicao = () => {
+        this.setState({
+            idTurma : 0,
+            isEdicao: true,
+            alunosTurma : [],
+            totalFaltas : 0,
+            descTurma  : '',
+            tpPeriodo : '',
+            tpNivelEnsino : '',
+          });
+    }
+
     this.exibirTurma = (idTurma) => {
       HttpService.exibirTurma(idTurma)
       .then((response) => {
@@ -120,6 +134,18 @@ export default class Turma extends Component{
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
       });
     }
+
+    this.handleDescTurma = (e) => {
+        this.setState({
+            descTurma : e.target.value
+        }); 
+    }
+      this.salvarTurma = (e) => {
+          alert('salvar');
+    }
+      this.deletarTurma = (e) => {
+        alert('deletar');
+    }
   }
 
   
@@ -135,35 +161,45 @@ export default class Turma extends Component{
             <Row className="mb-3">
                 <Form.Group as={Col} controlId="turmaForm.descTurma">
                     <Form.Label>Turma</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.descTurma} disabled  />
+                    <Form.Control type="text" placeholder={this.state.descTurma} disabled={!this.state.isEdicao}  
+                    onChange={this.handleDescTurma} value={this.state.descTurma} required autoComplete="false"
+                    />
                 </Form.Group>
             
                 <Form.Group as={Col} controlId="turmaForm.tpPeriodo">
                     <Form.Label>Ensino</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.tpPeriodo} disabled  />
+                    <Form.Control type="text" placeholder={this.state.tpPeriodo} disabled={!this.state.isEdicao}  
+                    onChange={this.handleTpPeriodo} value={this.state.tpPeriodo} required autoComplete="false"
+                    />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="turmaForm.tpNivelEnsino">
                     <Form.Label>Período</Form.Label>
-                    <Form.Control type="text" placeholder={this.state.tpNivelEnsino} disabled  />
+                    <Form.Control type="text" placeholder={this.state.tpNivelEnsino} disabled={!this.state.isEdicao} 
+                    onChange={this.handleTpNivelEnsino} value={this.state.tpNivelEnsino} required autoComplete="false"
+                     />
                 </Form.Group>
             </Row>
             <Form.Group className="mb-3" controlId="turmaForm.totalFaltas">
                 <Form.Label>Total de faltas na turma</Form.Label>
-                <Form.Control type="text" placeholder={this.state.totalFaltas} disabled  />
+                <Form.Control type="text" placeholder={this.state.totalFaltas} disabled />
             </Form.Group>
             </Form>
-            
-
+            <br/>
+            <Button onClick={this.habilitarEdicao} disabled={this.state.isEdicao}>Nova</Button>
+            <Button className="btnSalvarTurma" onClick={this.salvarTurma} disabled={!this.state.isEdicao}>Salvar</Button>
+            <Button className="btnDeletarTurma" onClick={this.deletarTurma} disabled={!this.state.isEdicao}>Deletar</Button>
+            <br/>
+            <br/>
+            <h4>Alunos desta turma </h4>
             <Table striped bordered hover size="sm">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>nome</th>
-                    <th>número de Matricula</th>
-                    <th>número do RA</th>
-                    <th>Ação</th>
-                    <th></th>
+                    <th>Nome</th>
+                    <th>Número de Matricula</th>
+                    <th>Número do RA</th>
+                    <th>Faltas</th>
                 </tr>
                 </thead>
 
@@ -173,13 +209,13 @@ export default class Turma extends Component{
                     return (
                         
                         <tr key={aluno.idAluno}>
+                        <td>{aluno.idAluno}</td>
                         <td>{aluno.nome}</td>
-                        <td>{aluno.descTurma}</td>
                         <td>{aluno.nroMatricula}</td>
                         <td>{aluno.ra}</td>
                         <td style={{textAlign : "center"}}>
                             {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
-                            <Button onClick={() => {this.abrirFaltasAlunoModal(aluno.idAluno)}}>Calcular total de faltas</Button>
+                            <Button onClick={() => {this.abrirFaltasAlunoModal(aluno.idAluno)}}>Calcular faltas</Button>
                         </td>
                         </tr>
                     )
@@ -223,7 +259,7 @@ export default class Turma extends Component{
             }
             <Modal.Footer>
                 <Button variant="secondary" onClick={this.fecharFaltasAlunoModal}>
-                Ok
+                Fechar
                 </Button>
             </Modal.Footer>
             </Modal>
