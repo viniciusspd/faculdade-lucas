@@ -47,7 +47,6 @@ export default class ListaAulas extends Component {
       HttpService.listarAulas(this.state.filtros)
       .then((response) => {
         if (response) {
-          console.log("response 123-> ",response);
 
           this.setState(prevState => ({
             ...prevState,
@@ -135,7 +134,9 @@ export default class ListaAulas extends Component {
           show : false,
         }
       });
+      this.obterLista();
     }
+
   }
 
   render(){

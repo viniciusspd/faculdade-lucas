@@ -7,6 +7,7 @@ import HttpService from "../../services/HttpService";
 import HttpServiceHandler from "../../services/HttpServiceHandler";
 import ErroModal from "../ErroModal";
 import Button from 'react-bootstrap/Button';
+import { Modal } from "react-bootstrap";
 
 export default class Aula extends Component{
 
@@ -34,7 +35,11 @@ export default class Aula extends Component{
         mensagemErro : '',
         show : false,
         titulo : ''
-      },      
+      },
+      sucessoModal : {
+        mensagem : '',
+        show : false
+      }      
     };
 
     this.closeErroModal = () => {
@@ -43,6 +48,24 @@ export default class Aula extends Component{
           mensagemErro : '',
           showModalErro : false,
           titulo : ''
+        }
+      });
+    }
+
+    this.closeSucessoModal = () => {
+      this.setState({
+        sucessoModal : {
+          mensagem : '',
+          show : false
+        }
+      });
+    }
+
+    this.abrirSucessoModal = (msg) => {
+      this.setState({
+        sucessoModal : {
+          mensagem : msg,
+          show : true
         }
       });
     }
@@ -78,7 +101,7 @@ export default class Aula extends Component{
 
       HttpService.salvarChamadaAtual(this.state.idAula, this.state.dadosAlunos)
       .then((response) => {
-        alert('Chamada salva com sucesso.');
+        this.abrirSucessoModal('Chamada salva com sucesso.');
       })
       .catch((error) => {
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
@@ -89,9 +112,10 @@ export default class Aula extends Component{
     this.finalizarAula = () => {
       HttpService.finalizarAula(this.state.idAula)
       .then((response) => {
-        alert('Aula finalizada com sucesso.');
-        if (this.props.isModal)
+        if (this.props.isModal){
+          this.abrirSucessoModal('Aula finalizada com sucesso.');
           this.listarChamada(this.state.idAula);
+        }
         else
           window.location = './calendario-aulas';
       })
@@ -104,7 +128,6 @@ export default class Aula extends Component{
       HttpService.exibirAula(idAula)
       .then((response) => {
 
-        console.log("response -> ",response);
         this.setState(prevState => ({
           ...prevState,
           idAula : response.data.idAula,
@@ -154,7 +177,6 @@ export default class Aula extends Component{
             <tbody>
               {
                 this.state.dadosAlunos.map((dadosAluno,index) => {
-                  console.log("dadosAluno",dadosAluno);
                   return (
                     <tr key={dadosAluno.aluno.idCadastro}>
                       <td style={{width: "95%"}}>{dadosAluno.aluno.nome}</td>
@@ -177,6 +199,18 @@ export default class Aula extends Component{
           <Button onClick={this.salvarChamadaAtual}>Salvar</Button>
           <Button className="btnFinalizarAula" onClick={this.finalizarAula}>Finalizar Aula</Button>
         </Container>
+
+        <Modal show={this.state.sucessoModal.show} onHide={this.closeSucessoModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Sucesso</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{this.state.sucessoModal.mensagem}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.closeSucessoModal}>
+              Ok
+            </Button>
+          </Modal.Footer>
+        </Modal>
           
         <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
         

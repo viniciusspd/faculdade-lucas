@@ -9,7 +9,6 @@ export default class ListaPresencaModal extends Component {
   constructor(props) {
     super(props);
 
-    console.log("propis",this.props);
 
     this.handleClose = () => {
       this.props.closeDetalheAulaModal();
