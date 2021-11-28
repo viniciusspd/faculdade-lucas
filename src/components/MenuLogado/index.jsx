@@ -43,6 +43,7 @@ export default class MenuLogado extends Component {
                 <Link to={"/cadastro"}>Cadastro de usuário</Link>
                 <Link to={"/lista-usuarios"}>Lista de usuários</Link>
                 <Link to={"/calendario-aulas"}>Calendário de Aulas</Link>
+                <Link to={"/lista-aulas"}>Lista de Aulas</Link>
                 <a style={{"cursor" : "pointer"}} onClick={this.logoff}>Sair</a>
               </Nav>
             </Offcanvas.Body>

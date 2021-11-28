@@ -18,6 +18,7 @@ import Login from './components/Login';
 import Aula from './components/Aula';
 
 import reportWebVitals from './reportWebVitals';
+import ListaAulas from './components/ListaAulas';
 
 
 
@@ -31,6 +32,7 @@ ReactDOM.render(
       <Route path="/cadastro" element={<CadastroForm />}></Route>
       <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
       <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
+      <Route path="/lista-aulas" element={<ListaAulas />}></Route>
     </Routes>
 
     {

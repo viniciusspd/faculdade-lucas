@@ -57,6 +57,30 @@ export default class HttpService{
     let request = await axios.post(urlListarUsuarios,{},{});
     return request;
   }
+
+
+  static listarAulas = async (filtros) => {
+    let url = urlBase + '/aulas';
+    let queryParams = [];
+
+    if (filtros.idProfessor) {
+      queryParams.push('idProfessor=' + filtros.idProfessor);
+    }
+    if (filtros.paginacaoRequest) {
+      queryParams.push(HttpService.queryPaginacao(filtros.paginacaoRequest));
+    }
+
+    if (filtros.statusAula) {
+      queryParams.push('statusAula=' + filtros.statusAula);
+    }
+
+    url += HttpService.gerarParams(queryParams);
+
+    //console.log("url -> ",url);
+
+    let request = await axios.get(url,defaultConfig);
+    return request;
+  }
   
   static listarCalendarioAulas = async (filtros) => {
     let url = urlBase + '/calendario-aulas';
