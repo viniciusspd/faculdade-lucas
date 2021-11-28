@@ -11,8 +11,6 @@ import App from './App';
 
 import AreaDoUsuario from './components/AreaDoUsuario';
 
-import CadastroForm from './components/CadastroForm';
-import ListaUsuarios from './components/ListaUsuarios';
 import CalendarioAulas from './components/CalendarioAulas';
 import Login from './components/Login';
 import Aula from './components/Aula';
@@ -30,8 +28,6 @@ ReactDOM.render(
       <Route path="/login" element={<Login />}></Route>
       <Route path="/aula" element={<Aula />}></Route>
       <Route path="/area-do-usuario" element={<AreaDoUsuario/>}></Route>
-      <Route path="/cadastro" element={<CadastroForm />}></Route>
-      <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
       <Route path="/calendario-aulas" element={<CalendarioAulas />}></Route>
       <Route path="/lista-aulas" element={<ListaAulas />}></Route>
       <Route path="/lista-turmas" element={<ListaTurmas />}></Route>

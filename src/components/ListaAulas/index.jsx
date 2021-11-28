@@ -141,15 +141,19 @@ export default class ListaAulas extends Component {
 
   render(){
     return (
-      <Container className="containerListaAulas">
-        <MenuLogado/>
+      <Container className="containerListaAulas" fluid>
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 10, offset: 1}}  md={{span : 10, offset: 1}} lg={{span: 8, offset: 2}}>
+            <MenuLogado/>
+          </Col>
+        </Row>
         
 
-        <Row style={{marginBottom: "20px"}}>
-          <Col sm={{span : 4}}>
-            <h1>Lista de aulas.</h1>
+        <Row style={{marginBottom: "20px", marginTop: "20px"}}>
+          <Col xs={{span: 6, offset: 0}} sm={{span : 6, offset: 0}}  md={{span : 6, offset: 0}} lg={{span: 2, offset: 2}}>
+            <h1>Lista de aulas</h1>
           </Col>
-          <Col sm={{span : 4, offset: 4}}>
+          <Col className="align-right" xs={{span: 6, offset: 0}} sm={{span : 6, offset: 0}}  md={{span : 6, offset: 0}} lg={{span: 2, offset: 4}}>
             <FloatingLabel controlId="floatingSelectGrid" label="Filtro de status">
               <Form.Select aria-label="Floating label select example" onChange={this.handleFiltroStatusChange}>
                 <option value="">Nenhum</option>
@@ -161,45 +165,47 @@ export default class ListaAulas extends Component {
           </Col>
         </Row>
 
-        
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 12, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 8, offset: 2}}>
+            <Table striped bordered hover responsive="lg">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Matéria</th>
+                    <th>Turma</th>
+                    <th>Professor</th>
+                    <th>Data Início</th>
+                    <th>Data Fim</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-        <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Matéria</th>
-                <th>Turma</th>
-                <th>Professor</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
+                <tbody>
+                  {
+                    this.state.listaAulas.map((aula) => {
+                      return (
+                        <tr key={aula.idAula}>
+                          <td className="align-middle">{aula.idAula}</td>
+                          <td className="align-middle">{aula.materia.descMateria}</td>
+                          <td className="align-middle">{aula.turma.descTurma+ ' - '+aula.materia.tpNivelEnsino}</td>
+                          <td className="align-middle">{aula.professor.nome}</td>
+                          <td className="align-middle">{aula.dtHrIniciada}</td>
+                          <td className="align-middle">{aula.dtHrFinalizada ? aula.dtHrFinalizada : '-'}</td>
+                          <td className="align-middle">{aula.statusAula}</td>
+                          <td className="align-middle" style={{textAlign : "center"}}>
+                            {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
+                            <Button onClick={() => {this.abrirDetalhesAula(aula.idAula)}}>Visualizar Aula</Button>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
 
-            <tbody>
-              {
-                this.state.listaAulas.map((aula) => {
-                  return (
-                    <tr key={aula.idAula}>
-                      <td>{aula.idAula}</td>
-                      <td>{aula.materia.descMateria}</td>
-                      <td>{aula.turma.descTurma+ ' - '+aula.materia.tpNivelEnsino}</td>
-                      <td>{aula.professor.nome}</td>
-                      <td>{aula.dtHrIniciada}</td>
-                      <td>{aula.dtHrFinalizada ? aula.dtHrFinalizada : '-'}</td>
-                      <td>{aula.statusAula}</td>
-                      <td style={{textAlign : "center"}}>
-                        {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
-                        <Button onClick={() => {this.abrirDetalhesAula(aula.idAula)}}>Visualizar Aula</Button>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-
-          </Table>
+              </Table>
+            </Col>
+          </Row>
 
           <Paginacao there={this}/>
 

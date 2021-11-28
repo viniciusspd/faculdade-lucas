@@ -228,14 +228,14 @@ export default class CalendarioAulas extends Component {
                     this.state.calendarioAulas.map((aula) => {
                       return(
                         <tr key={aula.idCalendarioAula}>
-                          <td>{aula.diaSemana}</td>
-                          <td>{aula.descTurma}</td>
-                          <td>{aula.tpNivelEnsino}</td>
-                          <td>{aula.hrInicio}</td>
-                          <td>{aula.hrFim}</td>
-                          <td>{aula.descMateria}</td>
-                          <td>{aula.nomeProfessor}</td>
-                          <td style={{textAlign: "center"}}>
+                          <td className="align-middle">{aula.diaSemana}</td>
+                          <td className="align-middle">{aula.descTurma}</td>
+                          <td className="align-middle">{aula.tpNivelEnsino}</td>
+                          <td className="align-middle">{aula.hrInicio}</td>
+                          <td className="align-middle">{aula.hrFim}</td>
+                          <td className="align-middle">{aula.descMateria}</td>
+                          <td className="align-middle">{aula.nomeProfessor}</td>
+                          <td className="align-middle" style={{textAlign: "center"}}>
                             <Button onClick={() => {this.iniciarAula(aula.idCalendarioAula)}}>Iniciar aula</Button>
                           </td>
                         </tr>
