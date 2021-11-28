@@ -7,10 +7,21 @@ export default class HttpServiceHandler  extends Component {
     super();
     this.validarExceptionHTTP = (response, origemErro) => {
 
+      let mensagemErro = '';
+
+      if (response.status == 422){
+        response.data.forEach((erro) => {          
+          mensagemErro += (erro.campo ? erro.campo + ' - ' : '') + erro.mensagemErro + ";";
+        })
+      }
+      else {
+        mensagemErro = response.data.mensagemErro;
+      }
+
       origemErro.setState( prevState => ({
         erroModal : {
           ...prevState.erroModal,
-          mensagemErro : response.data.mensagemErro,
+          mensagemErro : mensagemErro,
           show : true,
           titulo : 'Erro '+response.status
         }
@@ -20,6 +31,8 @@ export default class HttpServiceHandler  extends Component {
         ErroDto.setErroToken(response.data.mensagemErro);
         window.location = '/login';
       }
+
+      
   
     }
   }

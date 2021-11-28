@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import Pagination from 'react-bootstrap/Pagination'
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
@@ -7,6 +8,7 @@ import ErroModal from '../ErroModal';
 import HttpServiceHandler from '../../services/HttpServiceHandler';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import DateHelper from '../../helpers/DateHelper';
 
 import './index.css';
 
@@ -148,10 +150,22 @@ export default class CalendarioAulas extends Component {
         }), () => {
           this.obterLista();
         });
-        
       }
+    }
 
+    this.iniciarAula = (idCalendarioAula) => {
+      const dataAtual = DateHelper.dateParaFormatoPtBr(new Date());
 
+      HttpService.iniciarAula({
+        "dtAula" : dataAtual,
+        "idCalendarioAula" : idCalendarioAula
+      })
+      .then((response) => {
+        window.location = './aula?idAula='+response.data.idAula;
+      })
+      .catch((error) => {
+        new HttpServiceHandler().validarExceptionHTTP(error.response, this);
+      });
     }
   }
 
@@ -188,7 +202,8 @@ export default class CalendarioAulas extends Component {
               <th>Inicio</th>
               <th>Fim</th>
               <th>Materia</th>
-              <th>Professor</th>  
+              <th>Professor</th>
+              <th></th>
               </tr>
             </thead>
             <tbody>
@@ -203,6 +218,9 @@ export default class CalendarioAulas extends Component {
                       <td>{aula.hrFim}</td>
                       <td>{aula.descMateria}</td>
                       <td>{aula.nomeProfessor}</td>
+                      <td>
+                        <Button onClick={() => {this.iniciarAula(aula.idCalendarioAula)}}>Iniciar aula</Button>
+                      </td>
                     </tr>
                   )
                 })
@@ -241,12 +259,8 @@ export default class CalendarioAulas extends Component {
           }
           <Pagination.Last onClick={() => this.selecionarPagina(this.state.filtros.paginacaoResponse.quantidade)} />
         </Pagination>
-        
-        
-        {
-          (this.state.mensagemErro !== '') &&
-          <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
-        }
+
+        <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
       
       </Container>
       

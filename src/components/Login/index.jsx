@@ -43,7 +43,6 @@ export default class Login extends Component {
 
     this.realizarLogin = (e) => {
       e.preventDefault();
-      console.log("vou fazer o login.");
 
       HttpService.logar({
         emailLogin : this.state.emailLogin,
@@ -54,7 +53,6 @@ export default class Login extends Component {
         
       })
       .catch((error) => {
-        console.log("error -> ",error.response);
         let mensagemErro = ''; 
         if (error.response.status == 422){          
           error.response.data.forEach((erro) => {

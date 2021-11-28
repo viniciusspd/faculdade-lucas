@@ -18,12 +18,10 @@ export default class CadastroForm extends Component {
     
 
     this.enviarDados = (e) => {
-      console.log("state -> ",this.state);
       e.preventDefault(); // Cancela a ação padrão do submit    
 
       HttpService.cadastrarUsuario(this.state.email, this.state.senha)
       .then((response) => {
-        console.log("response -> ",response);
 
         if (response.data.sucesso){
           alert(response.data.mensagem)

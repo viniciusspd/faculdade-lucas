@@ -45,10 +45,19 @@ export default class HttpService{
     return axios.post(urlCadastrarUsuario,config,data);
   }
 
+  static exibirAula = async (idAula) => {
+    let url = urlBase + '/aulas/'+idAula;
+
+    let response = await axios.get(url,defaultConfig);
+    return response;
+
+  }
+
   static listarUsuarios = async () => {
     let request = await axios.post(urlListarUsuarios,{},{});
     return request;
   }
+  
   static listarCalendarioAulas = async (filtros) => {
     let url = urlBase + '/calendario-aulas';
     let queryParams = [];
@@ -77,7 +86,30 @@ export default class HttpService{
     let url = urlBase + '/aulas';
     let config = defaultConfig;
     
-    return axios.post(url,config,postData);
+    return axios.post(url,postData,config);
+  }
+
+  static salvarChamadaAtual = (idAula, listaChamada) => {
+
+    let json = [];
+
+    listaChamada.forEach((dadosAluno) => {
+      json.push({
+        idAluno : dadosAluno.aluno.idCadastro,
+        isPresente : dadosAluno.presente === null ? true : dadosAluno.presente
+      });
+    })
+
+    let url = urlBase + '/aulas/'+idAula+"/presencas";
+    let config = defaultConfig;
+    
+    return axios.put(url,json,config);
+  }
+
+  static finalizarAula = (idAula) => {
+    let url = urlBase + '/aulas/'+idAula+"/finalizar";
+    let config = defaultConfig;
+    return axios.put(url,{},config);
   }
 
   static logar = (postData) => {

@@ -40,7 +40,6 @@ export default class ListaUsuarios extends Component {
   componentDidMount(){
     HttpService.listarUsuarios()
     .then((response) => {
-      console.log("response -> ",response);
       if (response.data.sucesso){
         this.setState({
           listaUsuarios : response.data.listaUsuarios

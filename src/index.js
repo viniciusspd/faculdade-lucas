@@ -15,6 +15,7 @@ import CadastroForm from './components/CadastroForm';
 import ListaUsuarios from './components/ListaUsuarios';
 import CalendarioAulas from './components/CalendarioAulas';
 import Login from './components/Login';
+import Aula from './components/Aula';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -25,6 +26,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      <Route path="/aula" element={<Aula />}></Route>
       <Route path="/area-do-usuario" element={<AreaDoUsuario/>}></Route>
       <Route path="/cadastro" element={<CadastroForm />}></Route>
       <Route path="/lista-usuarios" element={<ListaUsuarios />}></Route>
