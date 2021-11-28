@@ -54,8 +54,8 @@ export default class HttpService{
   }
 
   static listarUsuarios = async () => {
-    let request = await axios.post(urlListarUsuarios,{},{});
-    return request;
+    let response = await axios.post(urlListarUsuarios,{},{});
+    return response;
   }
 
 
@@ -78,8 +78,8 @@ export default class HttpService{
 
     //console.log("url -> ",url);
 
-    let request = await axios.get(url,defaultConfig);
-    return request;
+    let response = await axios.get(url,defaultConfig);
+    return response;
   }
   
   static listarCalendarioAulas = async (filtros) => {
@@ -103,8 +103,8 @@ export default class HttpService{
 
     url += HttpService.gerarParams(queryParams);
 
-    let request = await axios.get(url,defaultConfig);
-    return request;
+    let response = await axios.get(url,defaultConfig);
+    return response;
   }
   static iniciarAula =  (postData) => {
     let url = urlBase + '/aulas';
@@ -138,5 +138,34 @@ export default class HttpService{
 
   static logar = (postData) => {
     return axios.post(urlBase + '/logar', postData,defaultHeaders);
+  }
+
+  static listarTurmas = async (filtros) => {
+    let url = urlBase + '/turmas';
+    let queryParams = [];
+
+    if (filtros.descTurma) {
+      queryParams.push('descTurma=' + filtros.descTurma);
+    }
+    if (filtros.tpPeriodo) {
+      queryParams.push('tpPeriodo=' + filtros.tpPeriodo);
+    }
+    if (filtros.tpNivelEnsino) {
+      queryParams.push('tpNivelEnsino=' + filtros.tpNivelEnsino);
+    }
+    if (filtros.paginacaoRequest) {
+      queryParams.push(HttpService.queryPaginacao(filtros.paginacaoRequest));
+    }
+
+    url += HttpService.gerarParams(queryParams);
+
+    let response = await axios.get(url,defaultConfig);
+    return response;
+  }
+
+  static exibirTurma = async (idTurma) => {
+    let url = urlBase + '/turmas/' +idTurma;
+    let response = await axios.get(url,defaultConfig);
+    return response;
   }
 }
