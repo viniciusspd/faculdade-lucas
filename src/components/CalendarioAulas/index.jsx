@@ -12,18 +12,23 @@ import MenuLogado from '../../components/MenuLogado';
 import Paginacao from '../Paginacao';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import AsyncSelect from 'react-select/async';
 
 import './index.css';
+import { createPortal } from 'react-dom';
 
 export default class CalendarioAulas extends Component {
 
   constructor(props){
+    
+
     super(props);
 
     this.state = {
       calendarioAulas : [],
       filtros : {
         idProfessor : null,
+        idTurma : null,
         diaSemana : false,
         paginacaoRequest : {
           size: 15,
@@ -170,12 +175,62 @@ export default class CalendarioAulas extends Component {
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
       });
     }
+
+    this.handleBuscaTurma = (e) => {
+
+      HttpService.listarCalendarioAulas({
+        idTurma : e.value
+      })
+      .then((response) => {
+        if (response){
+          this.setState(prevState => ({
+            ...prevState,
+            calendarioAulas : response.data,
+            filtros : {
+              ...prevState.filtros,
+              paginacaoResponse : {
+                quantidade : parseInt(response.headers['page-quantidade']),
+                hasProxima : response.headers['page-has-proxima'] === 'true' ? true : false
+              }
+            }
+          }));
+        }
+      })
+      .catch((error) => {
+        new HttpServiceHandler().validarExceptionHTTP(error.response, this);
+      });
+
+    }
   }
 
 
   
 
   render(){
+    
+    const promiseOptions = (inputValue) => {
+      // new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve(filterColors(inputValue));
+      //   }, 1000);
+      // }
+
+      let listaTurmas = [];
+
+      return HttpService.listarTurmas({
+        descTurma : inputValue
+      })      
+      .then((response) => {
+        response.data.forEach((turma) => {
+          listaTurmas.push({
+            value : turma.idTurma,
+            label : turma.descTurma + ' do ' + turma.tpNivelEnsino
+          });          
+        });
+        return listaTurmas;
+      });
+    };
+
     return (   
       <Container className="containerCalendarioAulas" fluid>
 
@@ -186,8 +241,12 @@ export default class CalendarioAulas extends Component {
         </Row>
 
         <Row>
-          <Col xs={{span: 12, offset: 0}} sm={{span : 12, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 8, offset: 2}}>
+          <Col xs={{span: 6, offset: 0}} sm={{span : 6, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 4, offset: 2}}>
             <h3 className="tituloModulo">Calendário de aulas</h3>
+          </Col>
+
+          <Col xs={{span: 6, offset: 0}} sm={{span : 6, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 2, offset: 2}}>
+            <AsyncSelect placeholder="Digite a turma" noOptionsMessage={() => {return "Nenhuma turma encontrada"}} onChange={this.handleBuscaTurma} loadOptions={promiseOptions} />         
           </Col>
         </Row>
 
