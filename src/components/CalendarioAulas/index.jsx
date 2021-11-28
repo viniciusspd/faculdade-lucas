@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import Pagination from 'react-bootstrap/Pagination'
 import HttpService from '../../services/HttpService';
 import userLogado from '../../dto/UsuarioLogadoDto';
 import ErroModal from '../ErroModal';
@@ -10,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import DateHelper from '../../helpers/DateHelper';
 import MenuLogado from '../../components/MenuLogado';
+import Paginacao from '../Paginacao';
 
 import './index.css';
 
@@ -239,30 +239,10 @@ export default class CalendarioAulas extends Component {
 
 
         }
-
-        {
-          (this.state.filtros.paginacaoResponse.hasProxima)
-          
-        }
-
-        
-        <Pagination>
-          <Pagination.First onClick={() => {this.selecionarPagina(1)}} />
-          <Pagination.Prev onClick={() => {this.incrementarPagina(-1)}} />
-          <Pagination.Item active>{this.state.filtros.paginacaoRequest.page}</Pagination.Item>
-          
-          {
-            (this.state.filtros.paginacaoResponse.hasProxima) &&
-            <Pagination.Next onClick={() => {this.incrementarPagina(1)}} />
-          }
-          {
-            (!this.state.filtros.paginacaoResponse.hasProxima) &&
-            <Pagination.Next disabled />
-          }
-          <Pagination.Last onClick={() => this.selecionarPagina(this.state.filtros.paginacaoResponse.quantidade)} />
-        </Pagination>
-
+      
         <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
+
+        <Paginacao there={this} />
       
       </Container>
       

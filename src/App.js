@@ -8,7 +8,7 @@ import MenuNaoLogado from './components/MenuNaoLogado';
 
 import imgBackgroundMain from './assets/images/background_main.png';
 import imgNotebook from './assets/images/notebook.png';
-import imgComputador from './assets/images/computador_branco.png';
+import Footer from './components/Footer'
 
 export default class App extends Component {
   render() {
@@ -59,13 +59,7 @@ export default class App extends Component {
             </Col>          
           </Row>
 
-          <Row>
-            <Col sm={12} className="footer paddingContainer text-center">
-              <img src={imgComputador} />
-              <p id="copyright">&copy; Copyright BLR - 2021</p>            
-            </Col>          
-
-          </Row>
+          <Footer/>
         </Container>
       </div>
     );

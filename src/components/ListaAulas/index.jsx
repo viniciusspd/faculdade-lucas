@@ -3,7 +3,6 @@ import { Container, Table } from 'react-bootstrap';
 import HttpService from "../../services/HttpService";
 import HttpServiceHandler from "../../services/HttpServiceHandler";
 import MenuLogado from "../MenuLogado";
-import Pagination from 'react-bootstrap/Pagination'
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Row from 'react-bootstrap/Row';
@@ -13,6 +12,7 @@ import ListaPresencaModal from "../ListaPresencaModal";
 import ErroModal from "../ErroModal";
 
 import './index.css';
+import Paginacao from "../Paginacao";
 
 export default class ListaAulas extends Component {
   constructor(){
@@ -200,21 +200,7 @@ export default class ListaAulas extends Component {
 
           </Table>
 
-          <Pagination>
-            <Pagination.First onClick={() => {this.selecionarPagina(1)}} />
-            <Pagination.Prev onClick={() => {this.incrementarPagina(-1)}} />
-            <Pagination.Item active>{this.state.filtros.paginacaoRequest.page}</Pagination.Item>
-            
-            {
-              (this.state.filtros.paginacaoResponse.hasProxima) &&
-              <Pagination.Next onClick={() => {this.incrementarPagina(1)}} />
-            }
-            {
-              (!this.state.filtros.paginacaoResponse.hasProxima) &&
-              <Pagination.Next disabled />
-            }
-            <Pagination.Last onClick={() => this.selecionarPagina(this.state.filtros.paginacaoResponse.quantidade)} />
-          </Pagination>
+          <Paginacao there={this}/>
 
           <ListaPresencaModal closeDetalheAulaModal={this.closeDetalheAulaModal} detalheAulaModal={this.state.detalheAulaModal} />
           <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
