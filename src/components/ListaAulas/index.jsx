@@ -9,6 +9,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import ListaPresencaModal from "../ListaPresencaModal";
+import ErroModal from "../ErroModal";
 
 import './index.css';
 
@@ -35,6 +37,10 @@ export default class ListaAulas extends Component {
         show : false,
         titulo : ''
       }, 
+      detalheAulaModal : {
+        idAula : 0,
+        show : false,
+      }
     };
 
     this.obterLista = () => {
@@ -98,6 +104,38 @@ export default class ListaAulas extends Component {
     this.visualizarAula = (idAula) => {
       window.location = './aula?idAula='+idAula;
     }
+
+    this.abrirDetalhesAula = (idAula) => {
+      this.setState( prevState => ({
+        ...prevState,
+        detalheAulaModal : {
+          ...prevState.detalheAulaModal,
+          show : true,
+          idAula : idAula
+        }
+      }));
+
+      console.log("detalheAulaModal -> ",this.state);
+    }
+
+    this.closeErroModal = () => {
+      this.setState({
+        erroModal : {
+          mensagemErro : '',
+          showModalErro : false,
+          titulo : ''
+        }
+      });
+    }
+
+    this.closeDetalheAulaModal = () => {
+      this.setState({
+        detalheAulaModal : {
+          idAula : 0,
+          show : false,
+        }
+      });
+    }
   }
 
   render(){
@@ -151,7 +189,8 @@ export default class ListaAulas extends Component {
                       <td>{aula.dtHrFinalizada ? aula.dtHrFinalizada : '-'}</td>
                       <td>{aula.statusAula}</td>
                       <td style={{textAlign : "center"}}>
-                        <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button>
+                        {/* <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button> */}
+                        <Button onClick={() => {this.abrirDetalhesAula(aula.idAula)}}>Visualizar Aula</Button>
                       </td>
                     </tr>
                   )
@@ -176,6 +215,9 @@ export default class ListaAulas extends Component {
             }
             <Pagination.Last onClick={() => this.selecionarPagina(this.state.filtros.paginacaoResponse.quantidade)} />
           </Pagination>
+
+          <ListaPresencaModal closeDetalheAulaModal={this.closeDetalheAulaModal} detalheAulaModal={this.state.detalheAulaModal} />
+          <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
 
       </Container>
     );

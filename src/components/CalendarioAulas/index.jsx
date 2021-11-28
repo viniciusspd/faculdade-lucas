@@ -9,6 +9,7 @@ import HttpServiceHandler from '../../services/HttpServiceHandler';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import DateHelper from '../../helpers/DateHelper';
+import MenuLogado from '../../components/MenuLogado';
 
 import './index.css';
 
@@ -176,6 +177,7 @@ export default class CalendarioAulas extends Component {
     return (   
       <Container className="containerCalendarioAulas" sm={{span : 8, offset : 2}}>
 
+        <MenuLogado/>
         <h3 className="tituloModulo">Calendário de aulas</h3>
 
 

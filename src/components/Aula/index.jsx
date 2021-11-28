@@ -10,12 +10,12 @@ import Button from 'react-bootstrap/Button';
 
 export default class Aula extends Component{
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
       quantidadeFaltantes : 0,
-      idAula : null,
+      idAula : this.props.idAula ? this.props.idAula : null,
       statusAula : null,
       dtHrIniciada : null,
       dtHrFinalizada : null,
@@ -90,7 +90,10 @@ export default class Aula extends Component{
       HttpService.finalizarAula(this.state.idAula)
       .then((response) => {
         alert('Aula finalizada com sucesso.');
-        this.listarChamada(this.state.idAula);
+        if (this.props.isModal)
+          this.listarChamada(this.state.idAula);
+        else
+          window.location = './calendario-aulas';
       })
       .catch((error) => {
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
@@ -100,6 +103,8 @@ export default class Aula extends Component{
     this.listarChamada = (idAula) => {
       HttpService.exibirAula(idAula)
       .then((response) => {
+
+        console.log("response -> ",response);
         this.setState(prevState => ({
           ...prevState,
           idAula : response.data.idAula,
@@ -108,6 +113,8 @@ export default class Aula extends Component{
           dtHrFinalizada : response.data.dtHrFinalizada,
           dadosAlunos : response.data.presencaAlunos
         }));
+
+        this.contarFaltantes();
       })
       .catch((error) => {
         new HttpServiceHandler().validarExceptionHTTP(error.response, this);
@@ -120,9 +127,16 @@ export default class Aula extends Component{
   render(){
     return (
       <div>
-        <MenuLogado/>
+        {
+          (!this.props.isModal) &&
+         <MenuLogado/>
+        }
         <Container className="containerPaginaAulas">
-          <h1>Página de aulas</h1>
+
+          {
+            (!this.props.isModal) &&
+            <h1>Página de aulas</h1>
+          }
 
           <p className="quantidadeFaltantes">Quantidade de faltantes: {this.state.quantidadeFaltantes}</p>
           <span>Status da aula: <strong>{this.state.statusAula}</strong></span> &nbsp; | &nbsp;
@@ -140,6 +154,7 @@ export default class Aula extends Component{
             <tbody>
               {
                 this.state.dadosAlunos.map((dadosAluno,index) => {
+                  console.log("dadosAluno",dadosAluno);
                   return (
                     <tr key={dadosAluno.aluno.idCadastro}>
                       <td style={{width: "95%"}}>{dadosAluno.aluno.nome}</td>
@@ -148,7 +163,7 @@ export default class Aula extends Component{
                           type={"checkbox"}
                           id={1}
                           label={""}
-                          checked={dadosAluno.aluno.presente}
+                          checked={!dadosAluno.presente}
                           onChange={(e) => {this.toggleFaltou(index,e.target.checked)}}
                         />
                       </td>
@@ -157,7 +172,6 @@ export default class Aula extends Component{
                 })
               }
             </tbody>
-
           </Table>
 
           <Button onClick={this.salvarChamadaAtual}>Salvar</Button>
@@ -172,7 +186,15 @@ export default class Aula extends Component{
 
   componentDidMount() {
     const parsed = queryString.parse(window.location.search);
-    this.listarChamada(parsed.idAula);
+
+    if (this.props.idAula){
+      this.listarChamada(this.props.idAula);
+    }
+    else {
+      this.listarChamada(parsed.idAula);
+    }
+
+    
   }
 
 
