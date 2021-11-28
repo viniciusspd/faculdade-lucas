@@ -211,14 +211,14 @@ export default class Turma extends Component{
                 <br/>
                 <h5>Informações do aluno:</h5>
                 <br/>
-                <p>Total de faltas: </p>
-                <p>Nome: {this.state.faltasAlunoModal.detalhesAluno.nome} </p>
-                <p>CPF: {this.state.faltasAlunoModal.detalhesAluno.cpf} </p>
-                <p>Data de Nascimento: {this.state.faltasAlunoModal.detalhesAluno.dtNascimento}</p>
-                <p>Sexo: {this.state.faltasAlunoModal.detalhesAluno.sexo}</p>
-                <p>Número de Matricula: {this.state.faltasAlunoModal.detalhesAluno.nroMatricula}</p>
-                <p>Número de RA: {this.state.faltasAlunoModal.detalhesAluno.ra}</p>
-                <p>Email: {this.state.faltasAlunoModal.detalhesAluno.emailContato}</p>
+                <p><strong>Total de faltas</strong>: {this.state.faltasAlunoModal.detalhesAluno.totalFaltas}</p>
+                <p><strong>Nome</strong>: {this.state.faltasAlunoModal.detalhesAluno.nome} </p>
+                <p><strong>CPF</strong>: {this.state.faltasAlunoModal.detalhesAluno.cpf} </p>
+                <p><strong>Data de Nascimento</strong>: {this.state.faltasAlunoModal.detalhesAluno.dtNascimento}</p>
+                <p><strong>Sexo</strong>: {this.state.faltasAlunoModal.detalhesAluno.sexo}</p>
+                <p><strong>Número de Matricula</strong>: {this.state.faltasAlunoModal.detalhesAluno.nroMatricula}</p>
+                <p><strong>Número de RA</strong>: {this.state.faltasAlunoModal.detalhesAluno.ra}</p>
+                <p><strong>Email</strong>: {this.state.faltasAlunoModal.detalhesAluno.emailContato}</p>
             </Modal.Body>
             }
             <Modal.Footer>

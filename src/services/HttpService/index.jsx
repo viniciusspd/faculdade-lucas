@@ -154,4 +154,10 @@ export default class HttpService{
     let response = await axios.get(url,defaultConfig);
     return response;
   }
+
+  static calcularFaltasAluno = async (idAluno) => {
+    let url = urlBase + '/alunos/' +idAluno + '/calculo-faltas';
+    let response = await axios.get(url,defaultConfig);
+    return response;
+  }
 }
