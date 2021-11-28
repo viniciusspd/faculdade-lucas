@@ -163,7 +163,7 @@ export default class Aula extends Component{
                           type={"checkbox"}
                           id={1}
                           label={""}
-                          checked={!dadosAluno.presente}
+                          checked={!dadosAluno.presente && dadosAluno.presente !== null }
                           onChange={(e) => {this.toggleFaltou(index,e.target.checked)}}
                         />
                       </td>
