@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 import './index.css';
 
@@ -92,7 +93,10 @@ export default class ListaAulas extends Component {
       }), () => {
         this.obterLista();
       })
+    }
 
+    this.visualizarAula = (idAula) => {
+      window.location = './aula?idAula='+idAula;
     }
   }
 
@@ -109,7 +113,7 @@ export default class ListaAulas extends Component {
           <Col sm={{span : 4, offset: 4}}>
             <FloatingLabel controlId="floatingSelectGrid" label="Filtro de status">
               <Form.Select aria-label="Floating label select example" onChange={this.handleFiltroStatusChange}>
-                <option value="">Selecione</option>
+                <option value="">Nenhum</option>
                 <option value="INICIADA">Iniciada</option>
                 <option value="FINALIZADA">Finalizada</option>
                 {/* <option value="AGENDADA">Agendada</option> */}
@@ -123,12 +127,14 @@ export default class ListaAulas extends Component {
         <Table striped bordered hover size="sm">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Matéria</th>
                 <th>Turma</th>
                 <th>Professor</th>
                 <th>Data Início</th>
                 <th>Data Fim</th>
                 <th>Status</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -137,12 +143,16 @@ export default class ListaAulas extends Component {
                 this.state.listaAulas.map((aula) => {
                   return (
                     <tr key={aula.idAula}>
+                      <td>{aula.idAula}</td>
                       <td>{aula.materia.descMateria}</td>
                       <td>{aula.turma.descTurma+ ' - '+aula.materia.tpNivelEnsino}</td>
                       <td>{aula.professor.nome}</td>
                       <td>{aula.dtHrIniciada}</td>
                       <td>{aula.dtHrFinalizada ? aula.dtHrFinalizada : '-'}</td>
                       <td>{aula.statusAula}</td>
+                      <td style={{textAlign : "center"}}>
+                        <Button onClick={() => {this.visualizarAula(aula.idAula)}}>Visualizar Aula</Button>
+                      </td>
                     </tr>
                   )
                 })
