@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import MenuLogado from '../MenuLogado';
 import { Modal } from 'react-bootstrap';
 import DateHelper from '../../helpers/DateHelper';
+import ConfirmacaoModal from "../ConfirmacaoModal";
 
 
 export default class Turma extends Component{
@@ -38,7 +39,13 @@ export default class Turma extends Component{
         idAluno : 0,
         detalhesAluno: null,
         show : false,
-      }     
+      },
+      confirmacaoModal : {
+        perguntaConfirmacao : '',
+        show : false,
+        titulo : '',
+        callBackSim : null
+      },      
     };
 
     this.closeErroModal = () => {
@@ -60,6 +67,48 @@ export default class Turma extends Component{
         sucessoModal : {
           mensagem : '',
           show : false
+        }
+      });
+    }
+
+    this.abrirConfirmacaoModal = () => {
+      this.setState({
+        confirmacaoModal : {
+          perguntaConfirmacao : 'Deseja realmente excluir a turma?',
+          show : true,
+          titulo : 'Deletar turma',
+        }
+      });
+    }
+
+    this.handleSimConfirmacaoModal = () => {
+      HttpService.deletarTurma(this.state.idTurma)
+      .then((response) => {
+        if (response) {
+          this.setState({
+            sucessoModal : {
+              mensagem : 'Turma deletada com sucesso.',
+              show : true,
+              redirect : './lista-turmas'
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        new HttpServiceHandler().validarExceptionHTTP(error.response, this);
+      })
+      .finally(() => {
+        this.closeConfirmacaoModal();
+      });
+    }
+
+    this.closeConfirmacaoModal = () => {
+      this.setState({
+        confirmacaoModal : {
+          perguntaConfirmacao : '',
+          show : false,
+          titulo : '',
+          callBackSim : null
         }
       });
     }
@@ -140,11 +189,11 @@ export default class Turma extends Component{
             descTurma : e.target.value
         }); 
     }
-      this.salvarTurma = (e) => {
-          alert('salvar');
+    this.salvarTurma = (e) => {
+      alert('salvar');
     }
-      this.deletarTurma = (e) => {
-        alert('deletar');
+    this.deletarTurma = (e) => {
+      this.abrirConfirmacaoModal();
     }
   }
 
@@ -156,6 +205,8 @@ export default class Turma extends Component{
 
         <Container className="containerListaAlunosTurma">
             <MenuLogado/>
+
+            <h3 className="tituloModulo">Turma</h3>
 
             <Form> 
             <Row className="mb-3">
@@ -187,8 +238,8 @@ export default class Turma extends Component{
             </Form>
             <br/>
             <Button onClick={this.habilitarEdicao} disabled={this.state.isEdicao}>Nova</Button>
-            <Button className="btnSalvarTurma" onClick={this.salvarTurma} disabled={!this.state.isEdicao}>Salvar</Button>
-            <Button className="btnDeletarTurma" onClick={this.deletarTurma} disabled={!this.state.isEdicao}>Deletar</Button>
+            <Button variant="success" className="btnSalvarTurma" onClick={this.salvarTurma} disabled={!this.state.isEdicao}>Salvar</Button>
+            <Button variant="danger" className="btnDeletarTurma" onClick={this.deletarTurma} disabled={this.state.isEdicao}>Deletar</Button>
             <br/>
             <br/>
             <h4>Alunos desta turma </h4>
@@ -265,6 +316,7 @@ export default class Turma extends Component{
             </Modal>
             
             <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
+            <ConfirmacaoModal closeConfirmacaoModal={this.closeConfirmacaoModal} handleSimConfirmacaoModal={this.handleSimConfirmacaoModal} confirmacaoModal={this.state.confirmacaoModal}></ConfirmacaoModal>
             </Container>
       </div>
     )

@@ -149,6 +149,13 @@ export default class HttpService{
     return response;
   }
 
+  static deletarTurma = async (idTurma) => {
+    console.log("vou deletar a turma "+idTurma);
+    let url = urlBase + '/turmas/' +idTurma;
+    let response = await axios.delete(url,defaultConfig);
+    return response;
+  }
+
   static exibirAluno = async (idAluno) => {
     let url = urlBase + '/alunos/' +idAluno;
     let response = await axios.get(url,defaultConfig);
