@@ -1,7 +1,7 @@
 import axios from 'axios';
 import UsuarioLogadoDto from '../../dto/UsuarioLogadoDto';
 
-const urlBase = 'http://localhost:8080';
+const urlBase = 'http://localhost:8080/api';
 const urlCadastrarUsuario = 'https://ene9mo6m8wf5kma.m.pipedream.net/';  
 const urlListarUsuarios = 'https://enq1m3zwev7l1yk.m.pipedream.net/';  
 const defaultHeaders = {
