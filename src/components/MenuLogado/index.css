@@ -6,5 +6,5 @@
 .nomeUsuarioLogado {
   font-weight: normal;
   font-size: 1.0rem;
-  margin-left: 20px;
+  display: block;
 }

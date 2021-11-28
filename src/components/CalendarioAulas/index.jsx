@@ -10,6 +10,8 @@ import Alert from 'react-bootstrap/Alert';
 import DateHelper from '../../helpers/DateHelper';
 import MenuLogado from '../../components/MenuLogado';
 import Paginacao from '../Paginacao';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import './index.css';
 
@@ -175,70 +177,85 @@ export default class CalendarioAulas extends Component {
 
   render(){
     return (   
-      <Container className="containerCalendarioAulas" sm={{span : 8, offset : 2}}>
+      <Container className="containerCalendarioAulas" fluid>
 
-        <MenuLogado/>
-        <h3 className="tituloModulo">Calendário de aulas</h3>
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 10, offset: 1}}  md={{span : 10, offset: 1}} lg={{span: 8, offset: 2}}>
+            <MenuLogado/>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 12, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 8, offset: 2}}>
+            <h3 className="tituloModulo">Calendário de aulas</h3>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 12, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 8, offset: 2}}>
+            <Form.Check 
+              type={"checkbox"}
+              id={1}
+              label={"Exibir somente aulas de hoje"}
+              checked={this.state.filtros.diaSemana}
+              onChange={this.toggleExibirAulasDoDia}
+            />
+
+            {
+              <span>{this.state.filtros.diaSemana}</span>
+            }
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={{span: 12, offset: 0}} sm={{span : 12, offset: 0}}  md={{span : 12, offset: 0}} lg={{span: 8, offset: 2}}>
+            {
+              (this.state.calendarioAulas.length > 0) &&
+              <Table responsive="sm" striped bordered hover>
+                <thead>
+                  <tr>
+                  <th>Dia Semana</th>
+                  <th>Turma</th>  
+                  <th>Ensino</th>
+                  <th>Inicio</th>
+                  <th>Fim</th>
+                  <th>Materia</th>
+                  <th>Professor</th>
+                  <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    this.state.calendarioAulas.map((aula) => {
+                      return(
+                        <tr key={aula.idCalendarioAula}>
+                          <td>{aula.diaSemana}</td>
+                          <td>{aula.descTurma}</td>
+                          <td>{aula.tpNivelEnsino}</td>
+                          <td>{aula.hrInicio}</td>
+                          <td>{aula.hrFim}</td>
+                          <td>{aula.descMateria}</td>
+                          <td>{aula.nomeProfessor}</td>
+                          <td style={{textAlign: "center"}}>
+                            <Button onClick={() => {this.iniciarAula(aula.idCalendarioAula)}}>Iniciar aula</Button>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }          
+                </tbody>
+              </Table>
+            }
+
+            {
+              (this.state.calendarioAulas.length == 0) &&
+              <Alert variant={"danger"}>
+                Nenhuma aula encontrada.
+              </Alert>
 
 
-        <Form.Check 
-          type={"checkbox"}
-          id={1}
-          label={"Exibir somente aulas de hoje"}
-          checked={this.state.filtros.diaSemana}
-          onChange={this.toggleExibirAulasDoDia}
-        />
-
-        {
-          <span>{this.state.filtros.diaSemana}</span>
-        }
-
-        {
-          (this.state.calendarioAulas.length > 0) &&
-          <Table striped bordered hover size="sm">
-            <thead>
-              <tr>
-              <th>Dia Semana</th>
-              <th>Turma</th>  
-              <th>Ensino</th>
-              <th>Inicio</th>
-              <th>Fim</th>
-              <th>Materia</th>
-              <th>Professor</th>
-              <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                this.state.calendarioAulas.map((aula) => {
-                  return(
-                    <tr key={aula.idCalendarioAula}>
-                      <td>{aula.diaSemana}</td>
-                      <td>{aula.descTurma}</td>
-                      <td>{aula.tpNivelEnsino}</td>
-                      <td>{aula.hrInicio}</td>
-                      <td>{aula.hrFim}</td>
-                      <td>{aula.descMateria}</td>
-                      <td>{aula.nomeProfessor}</td>
-                      <td>
-                        <Button onClick={() => {this.iniciarAula(aula.idCalendarioAula)}}>Iniciar aula</Button>
-                      </td>
-                    </tr>
-                  )
-                })
-              }          
-            </tbody>
-          </Table>
-        }
-
-        {
-          (this.state.calendarioAulas.length == 0) &&
-          <Alert variant={"danger"}>
-            Nenhuma aula encontrada.
-          </Alert>
-
-
-        }
+            }
+          </Col>
+        </Row>
       
         <ErroModal closeErroModal={this.closeErroModal} erroModal={this.state.erroModal}/>
 

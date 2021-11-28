@@ -25,7 +25,7 @@ export default class MenuLogado extends Component {
         <Container fluid>
           <Navbar.Brand href="#" id="tituloSistema">
             Secretaria Escolar
-            <span className="nomeUsuarioLogado">Logado como {UsuarioLogadoDto.getNome()}</span>
+            <small className="nomeUsuarioLogado">Logado como {UsuarioLogadoDto.getNome()}</small>
           </Navbar.Brand>
           
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
