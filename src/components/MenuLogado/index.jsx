@@ -39,11 +39,11 @@ export default class MenuLogado extends Component {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Link to={"/"}>Telinha inicial</Link>
-                <Link to={"/calendario-aulas"}>Calendário de Aulas</Link>
-                <Link to={"/lista-aulas"}>Lista de Aulas</Link>
-                <Link to={"/lista-turmas"}>Lista de Turmas</Link>
-                <a style={{"cursor" : "pointer"}} onClick={this.logoff}>Sair</a>
+                <Link className="linkMenu" to={"/"}>Home</Link>
+                <Link className="linkMenu" to={"/calendario-aulas"}>Calendário de Aulas</Link>
+                <Link className="linkMenu" to={"/lista-aulas"}>Lista de Aulas</Link>
+                <Link className="linkMenu" to={"/lista-turmas"}>Lista de Turmas</Link>
+                <a className="linkMenu" style={{"cursor" : "pointer"}} onClick={this.logoff}>Sair</a>                
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

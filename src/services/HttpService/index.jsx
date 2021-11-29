@@ -156,6 +156,12 @@ export default class HttpService{
     return response;
   }
 
+  static salvarTurma =  (postData) => {
+    let url = urlBase + '/turmas';
+    let config = defaultConfig;
+    return axios.post(url,postData,config);
+  }
+
   static exibirAluno = async (idAluno) => {
     let url = urlBase + '/alunos/' +idAluno;
     let response = await axios.get(url,defaultConfig);
